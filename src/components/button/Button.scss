@@ -1,0 +1,299 @@
+$versa-color-blue1: #1ea7fd;
+$versa-color-blue2: #50bcff;
+$versa-color-blue3: #0985d3;
+$versa-hover-bg: #eaeaea;
+$versa-active-bg: #bfbfbf;
+$versa-text-color: #282828;
+$versa-btn-default-border-color: #d9d9d9;
+// disabled
+$versa-btn-bg-disabled: #d9d9d9;
+$versa-btn-text-disabled: rgba(0, 0, 0, 0.25);
+$versa-btn-border-disabled: rgba(0, 0, 0, 0.25);
+//size
+$versa-btn-height-lg: 40px;
+$versa-btn-height: 32px;
+$versa-btn-height-sm: 24px;
+$versa-btn-font-lg: 20px;
+$versa-btn-font: 16px;
+$versa-btn-font-sm: 12px;
+//danger
+$versa-color-error: #ff4d4f;
+$versa-color-error-hover: #ff7875;
+$versa-color-error-active: #d9363e;
+$versa-color-error-bg: #fff2f0;
+$versa-color-error-bg-hover: #fff1f0;
+$versa-color-error-bg-active: #fbdcda;
+$versa-color-error-border-hover: #ffa39e;
+
+.versa-btn {
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  height: $versa-btn-height;
+  min-width: $versa-btn-height;
+  font-size: $versa-btn-font;
+  padding: 4px 15px;
+  transition: all 0.2s;
+
+  &-only {
+    padding: 4px 0;
+  }
+
+  &:not(.versa-btn-only) .versa-btn-icon {
+    margin-right: 8px;
+  }
+
+  &-loading {
+    opacity: 0.65;
+  }
+
+  // 类型
+  &--primary {
+    color: white;
+    background-color: $versa-color-blue1;
+    &:not(:disabled):hover {
+      background-color: $versa-color-blue2;
+    }
+    &:not(:disabled):active {
+      background-color: $versa-color-blue3;
+    }
+  }
+  &--dashed {
+    color: $versa-text-color;
+    background-color: #fff;
+    border: 1px dashed $versa-btn-default-border-color;
+    &:not(:disabled):hover {
+      border-color: $versa-color-blue1;
+      color: $versa-color-blue1;
+    }
+    &:not(:disabled):active {
+      border-color: $versa-color-blue3;
+      color: $versa-color-blue3;
+    }
+  }
+  &--link {
+    color: $versa-color-blue1;
+    background-color: #fff;
+    border: none;
+    &:not(:disabled):hover {
+      color: $versa-color-blue2;
+    }
+    &:not(:disabled):active {
+      color: $versa-color-blue3;
+    }
+  }
+  &--text {
+    color: $versa-text-color;
+    background-color: #fff;
+    &:not(:disabled):hover {
+      background-color: $versa-hover-bg;
+    }
+    &:not(:disabled):active {
+      background-color: $versa-active-bg;
+    }
+  }
+  &--default {
+    color: $versa-text-color;
+    background-color: #fff;
+    border: 1px solid $versa-btn-default-border-color;
+    &:not(:disabled):hover {
+      border-color: $versa-color-blue1;
+      color: $versa-color-blue1;
+    }
+    &:not(:disabled):active {
+      border-color: $versa-color-blue3;
+      color: $versa-color-blue3;
+    }
+  }
+
+  // 尺寸
+  &--small {
+    font-size: $versa-btn-font-sm;
+    height: $versa-btn-height-sm;
+    min-width: $versa-btn-height-sm;
+  }
+  &--large {
+    font-size: $versa-btn-font-lg;
+    height: $versa-btn-height-lg;
+    min-width: $versa-btn-height-lg;
+  }
+
+  //危险
+  &--primary.versa-btn--danger {
+    color: white;
+    background-color: $versa-color-error;
+    &:not(:disabled):hover {
+      background-color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      background-color: $versa-color-error-active;
+    }
+  }
+  &--dashed.versa-btn--danger {
+    color: $versa-color-error;
+    background-color: #fff;
+    border: 1px dashed $versa-color-error;
+    &:not(:disabled):hover {
+      border-color: $versa-color-error-border-hover;
+      color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      border-color: $versa-color-error-active;
+      color: $versa-color-error-active;
+    }
+  }
+  &--link.versa-btn--danger {
+    color: $versa-color-error;
+    background-color: #fff;
+    border: none;
+    &:not(:disabled):hover {
+      color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      color: $versa-color-error-active;
+    }
+  }
+  &--text.versa-btn--danger {
+    color: $versa-color-error;
+    background-color: #fff;
+    &:not(:disabled):hover {
+      color: $versa-color-error-hover;
+      background-color: $versa-color-error-bg-hover;
+    }
+    &:not(:disabled):active {
+      background-color: $versa-color-error-bg-active;
+    }
+  }
+  &--default.versa-btn--danger {
+    color: $versa-color-error;
+    background-color: #fff;
+    border: 1px solid $versa-color-error;
+    &:not(:disabled):hover {
+      border-color: $versa-color-error-border-hover;
+      color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      border-color: $versa-color-error-active;
+      color: $versa-color-error-active;
+    }
+  }
+
+  //幽灵按钮
+  &--primary.versa-btn--ghost,
+  &--dashed.versa-btn--ghost,
+  &--link.versa-btn--ghost,
+  &--text.versa-btn--ghost,
+  &--default.versa-btn--ghost {
+    background-color: transparent;
+  }
+  &--primary.versa-btn--ghost,
+  &--dashed.versa-btn--ghost,
+  &--default.versa-btn--ghost {
+    color: $versa-color-blue1;
+    border: 1px solid $versa-color-blue1;
+    &:not(:disabled):hover {
+      background-color: transparent;
+      color: $versa-color-blue2;
+      border-color: $versa-color-blue2;
+    }
+    &:not(:disabled):active {
+      background-color: transparent;
+      color: $versa-color-blue3;
+      border-color: $versa-color-blue3;
+    }
+  }
+  &--primary.versa-btn--ghost.versa-btn--danger {
+    color: $versa-color-error;
+    border: 1px solid $versa-color-error;
+    &:not(:disabled):hover {
+      color: $versa-color-error-hover;
+      border-color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      color: $versa-color-error-active;
+      border-color: $versa-color-error-active;
+    }
+  }
+  &--dashed.versa-btn--ghost {
+    color: #fff;
+    border: 1px dashed #fff;
+  }
+  &--dashed.versa-btn--ghost.versa-btn--danger {
+    color: $versa-color-error;
+    border: 1px dashed $versa-color-error;
+    &:not(:disabled):hover {
+      border-color: $versa-color-error-border-hover;
+      color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      border-color: $versa-color-error-active;
+      color: $versa-color-error-active;
+    }
+  }
+  &--default.versa-btn--ghost {
+    color: #fff;
+    border: 1px solid #fff;
+  }
+  &--default.versa-btn--ghost.versa-btn--danger {
+    color: $versa-color-error;
+    border: 1px solid $versa-color-error;
+    &:not(:disabled):hover {
+      border-color: $versa-color-error-border-hover;
+      color: $versa-color-error-hover;
+    }
+    &:not(:disabled):active {
+      border-color: $versa-color-error-active;
+      color: $versa-color-error-active;
+    }
+  }
+
+  //按钮失效
+  &:disabled,
+  &--disabled {
+    background-color: $versa-btn-bg-disabled;
+    color: $versa-btn-text-disabled !important;
+    border-color: $versa-btn-border-disabled !important;
+    cursor: no-drop;
+    pointer-events: none;
+  }
+  &--primary:disabled,
+  &--primary.versa-btn--disabled {
+    border: 1px solid $versa-btn-border-disabled;
+  }
+  &--text:disabled,
+  &--link:disabled,
+  &--text.versa-btn--disabled,
+  &--link.versa-btn--disabled {
+    border-color: none;
+    background-color: #fff;
+  }
+
+  // block按钮
+  &--block {
+    width: 100%;
+  }
+
+  // 按钮形状
+  &--circle {
+    border-radius: 50%;
+    padding: 4px 0;
+  }
+  &--round {
+    border-radius: $versa-btn-height;
+  }
+  &--round.versa-btn--small {
+    border-radius: $versa-btn-height-sm;
+  }
+  &--round.versa-btn--large {
+    border-radius: $versa-btn-height-lg;
+  }
+}
+
+a.versa-btn {
+  text-decoration: none;
+  display: initial;
+}

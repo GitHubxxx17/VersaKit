@@ -1,0 +1,358 @@
+$versa-blue-1: #e6f4ff;
+$versa-blue-2: #bae0ff;
+$versa-blue-3: #91caff;
+$versa-blue-4: #69b1ff;
+$versa-blue-5: #4096ff;
+$versa-blue-6: #1677ff;
+$versa-blue-7: #0958d9;
+$versa-blue-8: #003eb3;
+$versa-blue-9: #002c8c;
+$versa-blue-10: #001d66;
+$versa-purple-1: #f9f0ff;
+$versa-purple-2: #efdbff;
+$versa-purple-3: #d3adf7;
+$versa-purple-4: #b37feb;
+$versa-purple-5: #9254de;
+$versa-purple-6: #722ed1;
+$versa-purple-7: #531dab;
+$versa-purple-8: #391085;
+$versa-purple-9: #22075e;
+$versa-purple-10: #120338;
+$versa-cyan-1: #e6fffb;
+$versa-cyan-2: #b5f5ec;
+$versa-cyan-3: #87e8de;
+$versa-cyan-4: #5cdbd3;
+$versa-cyan-5: #36cfc9;
+$versa-cyan-6: #13c2c2;
+$versa-cyan-7: #08979c;
+$versa-cyan-8: #006d75;
+$versa-cyan-9: #00474f;
+$versa-cyan-10: #002329;
+$versa-green-1: #f6ffed;
+$versa-green-2: #d9f7be;
+$versa-green-3: #b7eb8f;
+$versa-green-4: #95de64;
+$versa-green-5: #73d13d;
+$versa-green-6: #52c41a;
+$versa-green-7: #389e0d;
+$versa-green-8: #237804;
+$versa-green-9: #135200;
+$versa-green-10: #092b00;
+$versa-magenta-1: #fff0f6;
+$versa-magenta-2: #ffd6e7;
+$versa-magenta-3: #ffadd2;
+$versa-magenta-4: #ff85c0;
+$versa-magenta-5: #f759ab;
+$versa-magenta-6: #eb2f96;
+$versa-magenta-7: #c41d7f;
+$versa-magenta-8: #9e1068;
+$versa-magenta-9: #780650;
+$versa-magenta-10: #520339;
+$versa-pink-1: #fff0f6;
+$versa-pink-2: #ffd6e7;
+$versa-pink-3: #ffadd2;
+$versa-pink-4: #ff85c0;
+$versa-pink-5: #f759ab;
+$versa-pink-6: #eb2f96;
+$versa-pink-7: #c41d7f;
+$versa-pink-8: #9e1068;
+$versa-pink-9: #780650;
+$versa-pink-10: #520339;
+$versa-red-1: #fff1f0;
+$versa-red-2: #ffccc7;
+$versa-red-3: #ffa39e;
+$versa-red-4: #ff7875;
+$versa-red-5: #ff4d4f;
+$versa-red-6: #f5222d;
+$versa-red-7: #cf1322;
+$versa-red-8: #a8071a;
+$versa-red-9: #820014;
+$versa-red-10: #5c0011;
+$versa-orange-1: #fff7e6;
+$versa-orange-2: #ffe7ba;
+$versa-orange-3: #ffd591;
+$versa-orange-4: #ffc069;
+$versa-orange-5: #ffa940;
+$versa-orange-6: #fa8c16;
+$versa-orange-7: #d46b08;
+$versa-orange-8: #ad4e00;
+$versa-orange-9: #873800;
+$versa-orange-10: #612500;
+$versa-yellow-1: #feffe6;
+$versa-yellow-2: #ffffb8;
+$versa-yellow-3: #fffb8f;
+$versa-yellow-4: #fff566;
+$versa-yellow-5: #ffec3d;
+$versa-yellow-6: #fadb14;
+$versa-yellow-7: #d4b106;
+$versa-yellow-8: #ad8b00;
+$versa-yellow-9: #876800;
+$versa-yellow-10: #614700;
+$versa-volcano-1: #fff2e8;
+$versa-volcano-2: #ffd8bf;
+$versa-volcano-3: #ffbb96;
+$versa-volcano-4: #ff9c6e;
+$versa-volcano-5: #ff7a45;
+$versa-volcano-6: #fa541c;
+$versa-volcano-7: #d4380d;
+$versa-volcano-8: #ad2102;
+$versa-volcano-9: #871400;
+$versa-volcano-10: #610b00;
+$versa-geekblue-1: #f0f5ff;
+$versa-geekblue-2: #d6e4ff;
+$versa-geekblue-3: #adc6ff;
+$versa-geekblue-4: #85a5ff;
+$versa-geekblue-5: #597ef7;
+$versa-geekblue-6: #2f54eb;
+$versa-geekblue-7: #1d39c4;
+$versa-geekblue-8: #10239e;
+$versa-geekblue-9: #061178;
+$versa-geekblue-10: #030852;
+$versa-gold-1: #fffbe6;
+$versa-gold-2: #fff1b8;
+$versa-gold-3: #ffe58f;
+$versa-gold-4: #ffd666;
+$versa-gold-5: #ffc53d;
+$versa-gold-6: #faad14;
+$versa-gold-7: #d48806;
+$versa-gold-8: #ad6800;
+$versa-gold-9: #874d00;
+$versa-gold-10: #613400;
+$versa-lime-1: #fcffe6;
+$versa-lime-2: #f4ffb8;
+$versa-lime-3: #eaff8f;
+$versa-lime-4: #d3f261;
+$versa-lime-5: #bae637;
+$versa-lime-6: #a0d911;
+$versa-lime-7: #7cb305;
+$versa-lime-8: #5b8c00;
+$versa-lime-9: #3f6600;
+$versa-lime-10: #254000;
+$versa-color-text: rgba(0, 0, 0, 0.88);
+$versa-color-text-secondary: rgba(0, 0, 0, 0.65);
+$versa-color-text-tertiary: rgba(0, 0, 0, 0.45);
+$versa-color-text-quaternary: rgba(0, 0, 0, 0.25);
+$versa-color-fill: rgba(0, 0, 0, 0.15);
+$versa-color-fill-secondary: rgba(0, 0, 0, 0.06);
+$versa-color-fill-tertiary: rgba(0, 0, 0, 0.04);
+$versa-color-fill-quaternary: rgba(0, 0, 0, 0.02);
+$versa-color-bg-layout: #f5f5f5;
+$versa-color-bg-container: #ffffff;
+$versa-color-bg-elevated: #ffffff;
+$versa-color-bg-spotlight: rgba(0, 0, 0, 0.85);
+$versa-color-bg-blur: transparent;
+$versa-color-border: #d9d9d9;
+$versa-color-border-secondary: #f0f0f0;
+$versa-color-primary-bg: #e6f4ff;
+$versa-color-primary-bg-hover: #bae0ff;
+$versa-color-primary-border: #91caff;
+$versa-color-primary-border-hover: #69b1ff;
+$versa-color-primary-hover: #4096ff;
+$versa-color-primary-active: #0958d9;
+$versa-color-primary-text-hover: #4096ff;
+$versa-color-primary-text: #1677ff;
+$versa-color-primary-text-active: #0958d9;
+$versa-color-success-bg: #f6ffed;
+$versa-color-success-bg-hover: #d9f7be;
+$versa-color-success-border: #b7eb8f;
+$versa-color-success-border-hover: #95de64;
+$versa-color-success-hover: #95de64;
+$versa-color-success-active: #389e0d;
+$versa-color-success-text-hover: #73d13d;
+$versa-color-success-text: #52c41a;
+$versa-color-success-text-active: #389e0d;
+$versa-color-error-bg: #fff2f0;
+$versa-color-error-bg-hover: #fff1f0;
+$versa-color-error-border: #ffccc7;
+$versa-color-error-border-hover: #ffa39e;
+$versa-color-error-hover: #ff7875;
+$versa-color-error-active: #d9363e;
+$versa-color-error-text-hover: #ff7875;
+$versa-color-error-text: #ff4d4f;
+$versa-color-error-text-active: #d9363e;
+$versa-color-warning-bg: #fffbe6;
+$versa-color-warning-bg-hover: #fff1b8;
+$versa-color-warning-border: #ffe58f;
+$versa-color-warning-border-hover: #ffd666;
+$versa-color-warning-hover: #ffd666;
+$versa-color-warning-active: #d48806;
+$versa-color-warning-text-hover: #ffc53d;
+$versa-color-warning-text: #faad14;
+$versa-color-warning-text-active: #d48806;
+$versa-color-info-bg: #e6f4ff;
+$versa-color-info-bg-hover: #bae0ff;
+$versa-color-info-border: #91caff;
+$versa-color-info-border-hover: #69b1ff;
+$versa-color-info-hover: #69b1ff;
+$versa-color-info-active: #0958d9;
+$versa-color-info-text-hover: #4096ff;
+$versa-color-info-text: #1677ff;
+$versa-color-info-text-active: #0958d9;
+$versa-color-link-hover: #69b1ff;
+$versa-color-link-active: #0958d9;
+$versa-color-bg-mask: rgba(0, 0, 0, 0.45);
+
+$colorList: (
+  blue-1: #e6f4ff,
+  blue-2: #bae0ff,
+  blue-3: #91caff,
+  blue-4: #69b1ff,
+  blue-5: #4096ff,
+  blue-6: #1677ff,
+  blue-7: #0958d9,
+  blue-8: #003eb3,
+  blue-9: #002c8c,
+  blue-10: #001d66,
+  purple-1: #f9f0ff,
+  purple-2: #efdbff,
+  purple-3: #d3adf7,
+  purple-4: #b37feb,
+  purple-5: #9254de,
+  purple-6: #722ed1,
+  purple-7: #531dab,
+  purple-8: #391085,
+  purple-9: #22075e,
+  purple-10: #120338,
+  cyan-1: #e6fffb,
+  cyan-2: #b5f5ec,
+  cyan-3: #87e8de,
+  cyan-4: #5cdbd3,
+  cyan-5: #36cfc9,
+  cyan-6: #13c2c2,
+  cyan-7: #08979c,
+  cyan-8: #006d75,
+  cyan-9: #00474f,
+  cyan-10: #002329,
+  green-1: #f6ffed,
+  green-2: #d9f7be,
+  green-3: #b7eb8f,
+  green-4: #95de64,
+  green-5: #73d13d,
+  green-6: #52c41a,
+  green-7: #389e0d,
+  green-8: #237804,
+  green-9: #135200,
+  green-10: #092b00,
+  magenta-1: #fff0f6,
+  magenta-2: #ffd6e7,
+  magenta-3: #ffadd2,
+  magenta-4: #ff85c0,
+  magenta-5: #f759ab,
+  magenta-6: #eb2f96,
+  magenta-7: #c41d7f,
+  magenta-8: #9e1068,
+  magenta-9: #780650,
+  magenta-10: #520339,
+  pink-1: #fff0f6,
+  pink-2: #ffd6e7,
+  pink-3: #ffadd2,
+  pink-4: #ff85c0,
+  pink-5: #f759ab,
+  pink-6: #eb2f96,
+  pink-7: #c41d7f,
+  pink-8: #9e1068,
+  pink-9: #780650,
+  pink-10: #520339,
+  red-1: #fff1f0,
+  red-2: #ffccc7,
+  red-3: #ffa39e,
+  red-4: #ff7875,
+  red-5: #ff4d4f,
+  red-6: #f5222d,
+  red-7: #cf1322,
+  red-8: #a8071a,
+  red-9: #820014,
+  red-10: #5c0011,
+  orange-1: #fff7e6,
+  orange-2: #ffe7ba,
+  orange-3: #ffd591,
+  orange-4: #ffc069,
+  orange-5: #ffa940,
+  orange-6: #fa8c16,
+  orange-7: #d46b08,
+  orange-8: #ad4e00,
+  orange-9: #873800,
+  orange-10: #612500,
+  yellow-1: #feffe6,
+  yellow-2: #ffffb8,
+  yellow-3: #fffb8f,
+  yellow-4: #fff566,
+  yellow-5: #ffec3d,
+  yellow-6: #fadb14,
+  yellow-7: #d4b106,
+  yellow-8: #ad8b00,
+  yellow-9: #876800,
+  yellow-10: #614700,
+  volcano-1: #fff2e8,
+  volcano-2: #ffd8bf,
+  volcano-3: #ffbb96,
+  volcano-4: #ff9c6e,
+  volcano-5: #ff7a45,
+  volcano-6: #fa541c,
+  volcano-7: #d4380d,
+  volcano-8: #ad2102,
+  volcano-9: #871400,
+  volcano-10: #610b00,
+  geekblue-1: #f0f5ff,
+  geekblue-2: #d6e4ff,
+  geekblue-3: #adc6ff,
+  geekblue-4: #85a5ff,
+  geekblue-5: #597ef7,
+  geekblue-6: #2f54eb,
+  geekblue-7: #1d39c4,
+  geekblue-8: #10239e,
+  geekblue-9: #061178,
+  geekblue-10: #030852,
+  gold-1: #fffbe6,
+  gold-2: #fff1b8,
+  gold-3: #ffe58f,
+  gold-4: #ffd666,
+  gold-5: #ffc53d,
+  gold-6: #faad14,
+  gold-7: #d48806,
+  gold-8: #ad6800,
+  gold-9: #874d00,
+  gold-10: #613400,
+  lime-1: #fcffe6,
+  lime-2: #f4ffb8,
+  lime-3: #eaff8f,
+  lime-4: #d3f261,
+  lime-5: #bae637,
+  lime-6: #a0d911,
+  lime-7: #7cb305,
+  lime-8: #5b8c00,
+  lime-9: #3f6600,
+  lime-10: #254000,
+  success-1: #f6ffed,
+  success-3: #b7eb8f,
+  success-7: #52c41a,
+  warning-1: #fffbe6,
+  warning-3: #ffe58f,
+  warning-7: #faad14,
+  error-1: #fff2f0,
+  error-3: #ffccc7,
+  error-7: #ff4d4f,
+  info-1: #e6f4ff,
+  info-3: #91caff,
+  info-7: #1677ff,
+);
+
+$colors: (
+  color1: blue,
+  color2: red,
+  color3: green,
+  color4: purple,
+  color5: cyan,
+  color6: magenta,
+  color7: pink,
+  color8: orange,
+  color9: yellow,
+  color10: volcano,
+  color11: geekblue,
+  color12: lime,
+  color13: gold,
+  color14: success,
+  color15: warning,
+  color16: error,
+  color17: info,
+);

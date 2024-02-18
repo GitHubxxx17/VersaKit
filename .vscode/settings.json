@@ -1,0 +1,49 @@
+{
+  // 设置 TypeScript 的路径
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // 在保存时自动格式化代码
+  "editor.formatOnSave": true,
+
+  // 设置默认的代码格式化器为 Prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // 在保存时执行的代码操作
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // 在保存时仅格式化文件
+  "editor.formatOnSaveMode": "file",
+
+  // 在输入时自动格式化代码
+  "editor.formatOnType": true,
+
+  // 禁止在粘贴时自动格式化代码
+  "editor.formatOnPaste": false,
+
+  // 对 TypeScript 文件进行特定的配置
+  "[typescript]": {
+    // 在保存时自动格式化代码
+    "editor.formatOnSave": true,
+
+    // 设置默认的代码格式化器为 Prettier
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    // 在保存时执行的代码操作
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll.eslint": "explicit"
+    },
+
+    // 在保存时仅格式化文件
+    "editor.formatOnSaveMode": "file",
+
+    // 在输入时自动格式化代码
+    "editor.formatOnType": true,
+
+    // 禁止在粘贴时自动格式化代码
+    "editor.formatOnPaste": false
+  }
+}

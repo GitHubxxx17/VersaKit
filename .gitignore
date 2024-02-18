@@ -1,0 +1,8 @@
+node_modules
+es
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
+.dumi/preset/components-changelog*
+.dumi/preset/misc-changelog.json
+docs-dist
