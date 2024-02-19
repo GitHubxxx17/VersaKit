@@ -15,7 +15,6 @@ interface BaseButtonProps {
   type?: "primary" | "dashed" | "link" | "text" | "default";
   disabled?: boolean;
   children?: React.ReactNode;
-  styles?: React.CSSProperties;
   size?: "small" | "default" | "large";
   classNames?: string[];
   danger?: boolean;
@@ -67,7 +66,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       children,
       className,
-      styles,
       size = "default",
       onClick,
       danger,
@@ -136,7 +134,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             ...classNames,
             ...innerClassNames,
           ].join(" ")}
-          style={styles}
           href={href}
           target={target}
           onClick={handleClick}
@@ -162,7 +159,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ...classNames,
           ...innerClassNames,
         ].join(" ")}
-        style={styles}
         ref={ref}
         disabled={disabled}
         onClick={handleClick}
