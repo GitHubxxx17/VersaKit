@@ -1,29 +1,5 @@
-$versa-color-blue1: #1ea7fd;
-$versa-color-blue2: #50bcff;
-$versa-color-blue3: #0985d3;
-$versa-hover-bg: #eaeaea;
-$versa-active-bg: #bfbfbf;
-$versa-text-color: #282828;
-$versa-btn-default-border-color: #d9d9d9;
-// disabled
-$versa-btn-bg-disabled: #d9d9d9;
-$versa-btn-text-disabled: rgba(0, 0, 0, 0.25);
-$versa-btn-border-disabled: rgba(0, 0, 0, 0.25);
-//size
-$versa-btn-height-lg: 40px;
-$versa-btn-height: 32px;
-$versa-btn-height-sm: 24px;
-$versa-btn-font-lg: 20px;
-$versa-btn-font: 16px;
-$versa-btn-font-sm: 12px;
-//danger
-$versa-color-error: #ff4d4f;
-$versa-color-error-hover: #ff7875;
-$versa-color-error-active: #d9363e;
-$versa-color-error-bg: #fff2f0;
-$versa-color-error-bg-hover: #fff1f0;
-$versa-color-error-bg-active: #fbdcda;
-$versa-color-error-border-hover: #ffa39e;
+@import "../__common__/scss/color";
+@import "../__common__/scss/base";
 
 .versa-btn {
   font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -33,9 +9,9 @@ $versa-color-error-border-hover: #ffa39e;
   cursor: pointer;
   display: inline-block;
   line-height: 1;
-  height: $versa-btn-height;
-  min-width: $versa-btn-height;
-  font-size: $versa-btn-font;
+  height: $versa-height;
+  min-width: $versa-height;
+  font-size: $versa-font-size;
   padding: 4px 15px;
   transition: all 0.2s;
 
@@ -54,131 +30,131 @@ $versa-color-error-border-hover: #ffa39e;
   // 类型
   &--primary {
     color: white;
-    background-color: $versa-color-blue1;
+    background-color: $versa-blue-6;
     &:not(:disabled):hover {
-      background-color: $versa-color-blue2;
+      background-color: $versa-blue-4;
     }
     &:not(:disabled):active {
-      background-color: $versa-color-blue3;
+      background-color: $versa-blue-7;
     }
   }
   &--dashed {
-    color: $versa-text-color;
+    color: $versa-color-text;
     background-color: #fff;
-    border: 1px dashed $versa-btn-default-border-color;
+    border: 1px dashed $versa-color-border;
     &:not(:disabled):hover {
-      border-color: $versa-color-blue1;
-      color: $versa-color-blue1;
+      border-color: $versa-blue-5;
+      color: $versa-blue-5;
     }
     &:not(:disabled):active {
-      border-color: $versa-color-blue3;
-      color: $versa-color-blue3;
+      border-color: $versa-blue-7;
+      color: $versa-blue-7;
     }
   }
   &--link {
-    color: $versa-color-blue1;
+    color: $versa-blue-6;
     background-color: #fff;
     border: none;
     &:not(:disabled):hover {
-      color: $versa-color-blue2;
+      color: $versa-blue-4;
     }
     &:not(:disabled):active {
-      color: $versa-color-blue3;
+      color: $versa-blue-7;
     }
   }
   &--text {
-    color: $versa-text-color;
+    color: $versa-color-text;
     background-color: #fff;
     &:not(:disabled):hover {
-      background-color: $versa-hover-bg;
+      background-color: #eaeaea;
     }
     &:not(:disabled):active {
-      background-color: $versa-active-bg;
+      background-color: #bfbfbf;
     }
   }
   &--default {
-    color: $versa-text-color;
+    color: $versa-color-text;
     background-color: #fff;
-    border: 1px solid $versa-btn-default-border-color;
+    border: 1px solid $versa-color-border;
     &:not(:disabled):hover {
-      border-color: $versa-color-blue1;
-      color: $versa-color-blue1;
+      border-color: $versa-blue-5;
+      color: $versa-blue-5;
     }
     &:not(:disabled):active {
-      border-color: $versa-color-blue3;
-      color: $versa-color-blue3;
+      border-color: $versa-blue-7;
+      color: $versa-blue-7;
     }
   }
 
   // 尺寸
   &--small {
-    font-size: $versa-btn-font-sm;
-    height: $versa-btn-height-sm;
-    min-width: $versa-btn-height-sm;
+    font-size: $versa-font-size-sm;
+    height: $versa-height-sm;
+    min-width: $versa-height-sm;
   }
   &--large {
-    font-size: $versa-btn-font-lg;
-    height: $versa-btn-height-lg;
-    min-width: $versa-btn-height-lg;
+    font-size: $versa-font-size-xl;
+    height: $versa-height-lg;
+    min-width: $versa-height-lg;
   }
 
   //危险
   &--primary.versa-btn--danger {
     color: white;
-    background-color: $versa-color-error;
+    background-color: $versa-color-error-text;
     &:not(:disabled):hover {
       background-color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      background-color: $versa-color-error-active;
+      background-color: $versa-color-error-text-active;
     }
   }
   &--dashed.versa-btn--danger {
-    color: $versa-color-error;
+    color: $versa-color-error-text;
     background-color: #fff;
-    border: 1px dashed $versa-color-error;
+    border: 1px dashed $versa-color-error-text;
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      border-color: $versa-color-error-active;
-      color: $versa-color-error-active;
+      border-color: $versa-color-error-text-active;
+      color: $versa-color-error-text-active;
     }
   }
   &--link.versa-btn--danger {
-    color: $versa-color-error;
+    color: $versa-color-error-text;
     background-color: #fff;
     border: none;
     &:not(:disabled):hover {
       color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      color: $versa-color-error-active;
+      color: $versa-color-error-text-active;
     }
   }
   &--text.versa-btn--danger {
-    color: $versa-color-error;
+    color: $versa-color-error-text;
     background-color: #fff;
     &:not(:disabled):hover {
       color: $versa-color-error-hover;
       background-color: $versa-color-error-bg-hover;
     }
     &:not(:disabled):active {
-      background-color: $versa-color-error-bg-active;
+      background-color: #fbdcda;
     }
   }
   &--default.versa-btn--danger {
-    color: $versa-color-error;
+    color: $versa-color-error-text;
     background-color: #fff;
-    border: 1px solid $versa-color-error;
+    border: 1px solid $versa-color-error-text;
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      border-color: $versa-color-error-active;
-      color: $versa-color-error-active;
+      border-color: $versa-color-error-text-active;
+      color: $versa-color-error-text-active;
     }
   }
 
@@ -193,29 +169,29 @@ $versa-color-error-border-hover: #ffa39e;
   &--primary.versa-btn--ghost,
   &--dashed.versa-btn--ghost,
   &--default.versa-btn--ghost {
-    color: $versa-color-blue1;
-    border: 1px solid $versa-color-blue1;
+    color: $versa-blue-6;
+    border: 1px solid $versa-blue-6;
     &:not(:disabled):hover {
       background-color: transparent;
-      color: $versa-color-blue2;
-      border-color: $versa-color-blue2;
+      color: $versa-blue-5;
+      border-color: $versa-blue-5;
     }
     &:not(:disabled):active {
       background-color: transparent;
-      color: $versa-color-blue3;
-      border-color: $versa-color-blue3;
+      color: $versa-blue-7;
+      border-color: $versa-blue-7;
     }
   }
   &--primary.versa-btn--ghost.versa-btn--danger {
-    color: $versa-color-error;
-    border: 1px solid $versa-color-error;
+    color: $versa-color-error-text;
+    border: 1px solid $versa-color-error-text;
     &:not(:disabled):hover {
       color: $versa-color-error-hover;
       border-color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      color: $versa-color-error-active;
-      border-color: $versa-color-error-active;
+      color: $versa-color-error-text-active;
+      border-color: $versa-color-error-text-active;
     }
   }
   &--dashed.versa-btn--ghost {
@@ -223,15 +199,15 @@ $versa-color-error-border-hover: #ffa39e;
     border: 1px dashed #fff;
   }
   &--dashed.versa-btn--ghost.versa-btn--danger {
-    color: $versa-color-error;
-    border: 1px dashed $versa-color-error;
+    color: $versa-color-error-text;
+    border: 1px dashed $versa-color-error-text;
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      border-color: $versa-color-error-active;
-      color: $versa-color-error-active;
+      border-color: $versa-color-error-text-active;
+      color: $versa-color-error-text-active;
     }
   }
   &--default.versa-btn--ghost {
@@ -239,30 +215,30 @@ $versa-color-error-border-hover: #ffa39e;
     border: 1px solid #fff;
   }
   &--default.versa-btn--ghost.versa-btn--danger {
-    color: $versa-color-error;
-    border: 1px solid $versa-color-error;
+    color: $versa-color-error-text;
+    border: 1px solid $versa-color-error-text;
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
     }
     &:not(:disabled):active {
-      border-color: $versa-color-error-active;
-      color: $versa-color-error-active;
+      border-color: $versa-color-error-text-active;
+      color: $versa-color-error-text-active;
     }
   }
 
   //按钮失效
   &:disabled,
   &--disabled {
-    background-color: $versa-btn-bg-disabled;
-    color: $versa-btn-text-disabled !important;
-    border-color: $versa-btn-border-disabled !important;
+    background-color: #d9d9d9;
+    color: $versa-color-text-quaternary !important;
+    border-color: $versa-color-text-disabled !important;
     cursor: no-drop;
     pointer-events: none;
   }
   &--primary:disabled,
   &--primary.versa-btn--disabled {
-    border: 1px solid $versa-btn-border-disabled;
+    border: 1px solid $versa-color-text-disabled;
   }
   &--text:disabled,
   &--link:disabled,
@@ -283,13 +259,13 @@ $versa-color-error-border-hover: #ffa39e;
     padding: 4px 0;
   }
   &--round {
-    border-radius: $versa-btn-height;
+    border-radius: $versa-height;
   }
   &--round.versa-btn--small {
-    border-radius: $versa-btn-height-sm;
+    border-radius: $versa-height-sm;
   }
   &--round.versa-btn--large {
-    border-radius: $versa-btn-height-lg;
+    border-radius: $versa-height-lg;
   }
 }
 

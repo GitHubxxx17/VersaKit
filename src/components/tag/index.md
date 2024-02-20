@@ -39,6 +39,9 @@ group:
 可通过 `CheckableTag` 实现类似 `Checkbox` 的效果，点击切换选中效果。
 <code src="./demo/checkable.tsx">可选择标签</code>
 
+用数组生成一组标签，可以动态添加和删除。
+<code src="./demo/addAndRemove.tsx">动态添加和删除</code>
+
 ## API
 
 | 属性      | 类型                 | 默认值  | 必填  | 说明                                                       |
@@ -48,6 +51,7 @@ group:
 | onClose   | (e) => void          | -       | false | 关闭时的回调（可通过 `e.preventDefault()` 来阻止默认行为） |
 | icon      | ReactNode            | -       | false | 设置图标                                                   |
 | closeIcon | boolean \| ReactNode | `false` | false | 自定义关闭按钮。设置为 null 或 false 时隐藏关闭按钮）      |
+| closable  | boolean              | `false` | false | 设置标签是否可关闭                                         |
 
 ### Tag.CheckableTag
 

@@ -14,6 +14,7 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   closeIcon?: boolean | React.ReactNode;
   onClose?: (e: React.MouseEvent<HTMLElement>) => void;
   icon?: React.ReactNode;
+  closable?: boolean;
 }
 
 export interface TagType
@@ -36,11 +37,14 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     closeIcon,
     onClose,
     icon,
+    closable,
     ...rest
   } = props;
 
+  // 合并样式
   let patchStyle = styles;
 
+  // 颜色
   if (color && [...colors, ...status].includes(color)) {
     if (color != "default") classNames.push(`versa-tag-${color}`);
   } else if (color) {
@@ -52,10 +56,10 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     };
   }
 
-  if (!bordered) classNames.push(`versa-tag-none-bordered`);
-
+  // 设置关闭
   const [close, setClose] = useState(false);
 
+  // 处理关闭事件
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     onClose?.(e);
@@ -70,15 +74,24 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     !close && (
       <span
         ref={ref}
-        className={["versa-tag", ...classNames].join(" ")}
+        className={[
+          "versa-tag",
+          !bordered ? "versa-tag-none-bordered" : "",
+          ...classNames,
+        ].join(" ")}
         style={patchStyle}
         {...rest}
       >
         {icon && <span className="versa-tag-icon">{icon}</span>}
         {children}
-        {closeIcon && (
+        {(closable || closeIcon) && (
           <span className="versa-tag-closeIcon" onClick={handleClick}>
-            {isBoolean(closeIcon) ? <CloseOutlined /> : closeIcon}
+            {isBoolean(closeIcon) ||
+            (typeof closeIcon == "undefined" && closable) ? (
+              <CloseOutlined />
+            ) : (
+              closeIcon
+            )}
           </span>
         )}
       </span>
