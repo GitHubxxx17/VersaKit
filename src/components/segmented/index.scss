@@ -1,0 +1,103 @@
+@import "../__common__/scss/color";
+@import "../__common__/scss/base";
+
+.versa-segmented {
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 2px;
+  font-size: $versa-font-size;
+  border-radius: $versa-border-radius;
+  background-color: $versa-color-bg-layout;
+  color: $versa-color-text-secondary;
+
+  &-block {
+    width: 100%;
+    .versa-segmented-group {
+      width: 100%;
+    }
+    .versa-segmented-item {
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+
+  &-group {
+    position: relative;
+    display: flex;
+
+    &-move {
+      .versa-segmented-item {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  &-item {
+    position: relative;
+    z-index: 1;
+    border-radius: $versa-border-radius;
+    padding: 0 $versa-padding-sm;
+    min-height: 28px;
+    line-height: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:not(.versa-segmented-item-selected):not(
+        .versa-segmented-item-disabled
+      ):hover {
+      color: $versa-color-text;
+      background-color: #e7e7e8;
+    }
+
+    &:not(.versa-segmented-item-selected):not(
+        .versa-segmented-item-disabled
+      ):active {
+      color: $versa-color-text;
+      background-color: #d1d1d1;
+    }
+
+    &-selected {
+      color: $versa-color-text;
+      &::after {
+        background-color: #fff;
+      }
+    }
+
+    &-inner {
+      z-index: 1;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    &::after {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: $versa-border-radius;
+    }
+
+    &-disabled {
+      cursor: no-drop;
+      color: $versa-color-text-disabled;
+    }
+  }
+
+  &-slide {
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #fff;
+    border-radius: $versa-border-radius;
+    transition: all 0.3s ease-in-out;
+    box-shadow: $versa-box-shadow-secondary;
+  }
+}
