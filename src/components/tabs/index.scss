@@ -1,0 +1,428 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-tabs {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  // 导航栏
+  &-nav {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    &::after {
+      z-index: 0;
+      content: "";
+      position: absolute;
+      background-color: #f0f0f0;
+    }
+
+    &-extra-left {
+      margin-right: $versa-margin-sm;
+    }
+
+    &-extra-right {
+      margin-left: $versa-margin-sm;
+    }
+
+    &-scroll {
+      z-index: 1;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      &::before,
+      &::after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        opacity: 0;
+        transition: all 0.2s;
+        user-select: none;
+        cursor: pointer;
+      }
+    }
+
+    &-list {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      overflow: scroll;
+      &::-webkit-scrollbar {
+        height: 0;
+        width: 0;
+      }
+
+      &_inner {
+        position: relative;
+        display: flex;
+      }
+    }
+
+    &-editable {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #f0f0f0;
+      transition: all 0.2s;
+      font-size: $versa-font-size-sm;
+
+      &:hover {
+        color: $versa-blue-6;
+      }
+    }
+  }
+
+  // 导航栏tab
+  &-tab {
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: $versa-font-size;
+    white-space: nowrap;
+
+    &:hover {
+      color: $versa-blue-6;
+    }
+
+    &-card {
+      background-color: $versa-color-fill-quaternary;
+      border: 1px solid #f0f0f0;
+      padding: $versa-padding-xs $versa-padding;
+    }
+
+    &-card.versa-tabs-tab-active {
+      background-color: transparent;
+    }
+
+    &-card.versa-tabs-tab-small {
+      padding: 6px $versa-padding;
+    }
+
+    &-card.versa-tabs-tab-large {
+      padding: $versa-padding-xs $versa-padding 6px;
+      font-size: $versa-font-size-lg;
+    }
+  }
+
+  // 选中
+  &-tab-active {
+    color: $versa-blue-6;
+  }
+
+  // 禁用
+  &-tab-disable {
+    cursor: no-drop;
+    color: $versa-color-text-quaternary;
+    &:hover {
+      color: $versa-color-text-quaternary;
+    }
+  }
+
+  // 图标
+  &-icon {
+    margin-right: $versa-margin-sm;
+  }
+
+  &-closable {
+    margin-left: $versa-margin-sm;
+    font-size: $versa-font-size-sm;
+    color: $versa-color-text-tertiary;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  // 指示条
+  &-line {
+    background-color: $versa-blue-6;
+    position: absolute;
+    transition: all 0.2s ease-in-out;
+  }
+
+  // 展示区
+  &-tabpane {
+    font-size: $versa-font-size;
+    display: none;
+  }
+  // 展示区选中
+  &-tabpane-active {
+    display: block;
+  }
+}
+
+.versa-tabs {
+  // 位置
+  &-top {
+    flex-direction: column;
+    .versa-tabs-nav {
+      margin-bottom: 16px;
+
+      &::after {
+        bottom: 0px;
+      }
+
+      &-editable {
+        border-radius: 8px 8px 0 0;
+      }
+    }
+    .versa-tabs-line {
+      bottom: 0;
+      height: 2px;
+    }
+
+    .versa-tabs-tab-card {
+      border-radius: 8px 8px 0 0;
+    }
+
+    .versa-tabs-tab-card.versa-tabs-tab-active {
+      border-bottom-color: #ffffff;
+    }
+  }
+
+  &-bottom {
+    flex-direction: column-reverse;
+    .versa-tabs-nav {
+      margin-top: 16px;
+
+      &::after {
+        top: 0px;
+      }
+
+      &-editable {
+        border-radius: 0 0 8px 8px;
+      }
+    }
+    .versa-tabs-line {
+      top: 0;
+      height: 2px;
+    }
+
+    .versa-tabs-tab-card {
+      border-radius: 0 0 8px 8px;
+    }
+
+    .versa-tabs-tab-card.versa-tabs-tab-active {
+      border-top-color: #ffffff;
+    }
+  }
+
+  &-top,
+  &-bottom {
+    .versa-tabs {
+      &-nav {
+        &-scroll {
+          &::before {
+            left: 0;
+            box-shadow: $versa-box-shadow-tabs-overflow-left;
+          }
+
+          &::after {
+            top: 0;
+            right: 0;
+            box-shadow: $versa-box-shadow-tabs-overflow-right;
+          }
+        }
+
+        &::after {
+          left: 0;
+          width: 100%;
+          height: 1px;
+        }
+
+        &-center {
+          justify-content: center;
+        }
+
+        &-editable {
+          width: 40px;
+          padding: 12px 0;
+          margin-left: 2px;
+        }
+      }
+
+      // 滚动开头阴影
+      &-scroll-start {
+        &::before {
+          width: 20px;
+          height: 100%;
+          opacity: 1;
+        }
+      }
+      // 滚动结尾阴影
+      &-scroll-end {
+        &::after {
+          width: 20px;
+          height: 100%;
+          opacity: 1;
+        }
+      }
+
+      &-tab {
+        &-line {
+          padding: $versa-padding-sm 0;
+        }
+
+        &-line + .versa-tabs-tab-line {
+          margin-left: 32px;
+        }
+
+        &-line.versa-tabs-tab-small {
+          padding: $versa-padding-xs 0;
+        }
+
+        &-line.versa-tabs-tab-large {
+          padding: $versa-padding 0;
+          font-size: $versa-font-size-lg;
+        }
+
+        &-card + .versa-tabs-tab-card {
+          margin-left: 2px;
+        }
+      }
+    }
+  }
+
+  &-left,
+  &-right {
+    .versa-tabs {
+      &-nav {
+        width: auto;
+        flex-direction: column;
+
+        &-editable {
+          width: 100%;
+          height: 40px;
+          margin-top: 2px;
+        }
+
+        &::after {
+          top: 0;
+          width: 1px;
+          height: 100%;
+        }
+
+        &-center {
+          align-items: center;
+        }
+
+        &-extra-left {
+          margin-right: 0;
+          margin-bottom: $versa-margin-sm;
+        }
+
+        &-extra-right {
+          margin-left: 0;
+          margin-top: $versa-margin-sm;
+        }
+
+        &-list_inner {
+          flex-direction: column;
+        }
+
+        &-scroll {
+          &::before {
+            top: 0;
+            box-shadow: $versa-box-shadow-tabs-overflow-top;
+          }
+
+          &::after {
+            bottom: 0;
+            box-shadow: $versa-box-shadow-tabs-overflow-bottom;
+          }
+        }
+      }
+
+      // 滚动开头阴影
+      &-scroll-start {
+        &::before {
+          height: 20px;
+          width: 100%;
+          opacity: 1;
+        }
+      }
+      // 滚动结尾阴影
+      &-scroll-end {
+        &::after {
+          height: 20px;
+          width: 100%;
+          opacity: 1;
+        }
+      }
+
+      &-tab {
+        &-line {
+          padding: $versa-padding-xs $versa-padding-lg;
+        }
+
+        &-line.versa-tabs-tab-small {
+          padding: $versa-padding-xs $versa-padding-lg;
+        }
+
+        &-line.versa-tabs-tab-large {
+          padding: $versa-padding-xs $versa-padding-lg;
+          font-size: $versa-font-size-lg;
+        }
+
+        &-card + .versa-tabs-tab-card {
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+
+  &-left {
+    flex-direction: row;
+    .versa-tabs-nav {
+      margin-right: 16px;
+      &::after {
+        right: 0px;
+      }
+      &-editable {
+        border-radius: 8px 0 0 8px;
+        border-right: none;
+      }
+    }
+    .versa-tabs-line {
+      width: 2px;
+      right: 0;
+    }
+    .versa-tabs-tab-card {
+      border-radius: 8px 0 0 8px;
+    }
+
+    .versa-tabs-tab-card.versa-tabs-tab-active {
+      border-right-color: #ffffff;
+    }
+  }
+
+  &-right {
+    flex-direction: row-reverse;
+    .versa-tabs-nav {
+      margin-left: 16px;
+      &::after {
+        left: 0px;
+      }
+      &-editable {
+        border-radius: 0 8px 8px 0;
+        border-left: none;
+      }
+    }
+    .versa-tabs-line {
+      width: 2px;
+      left: 0;
+    }
+    .versa-tabs-tab-card {
+      border-radius: 0 8px 8px 0;
+    }
+
+    .versa-tabs-tab-card.versa-tabs-tab-active {
+      border-left-color: #ffffff;
+    }
+  }
+}
