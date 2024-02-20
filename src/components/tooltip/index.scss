@@ -1,0 +1,55 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-tooltip {
+  position: absolute;
+  border-radius: $versa-border-radius-lg;
+  box-shadow: $versa-box-shadow;
+  max-width: 250px;
+  min-width: 32px;
+  min-height: 32px;
+  user-select: none;
+  display: none;
+  transform-origin: bottom center;
+  transform: scale(1);
+
+  &-arrow {
+    z-index: 5;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(45deg);
+    background-color: #000;
+    box-shadow: $versa-box-shadow;
+    border-radius: 2px;
+  }
+
+  &-content {
+    position: relative;
+    z-index: 10;
+    background-color: #000;
+    border-radius: $versa-border-radius-lg;
+    padding: 6px 8px;
+    min-height: 32px;
+    min-width: 32px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: $versa-font-size;
+    line-height: $versa-line-height;
+  }
+}
+
+//遍历颜色列表
+@each $key, $color in $colors {
+  .versa-tooltip-#{$color} {
+    .versa-tooltip-content {
+      background-color: map-get($colorList, #{$color}-6);
+    }
+
+    .versa-tooltip-arrow {
+      background-color: map-get($colorList, #{$color}-6);
+    }
+  }
+}
