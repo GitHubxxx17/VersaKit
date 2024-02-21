@@ -24,8 +24,23 @@ group:
 `block` 属性使其适合父元素宽度。
 <code src="./demo/block.tsx">Block 分段选择器</code>
 
-Segmented 不可用。
+`Segmented` 不可用。
 <code src="./demo/disabled.tsx">不可用</code>
+
+受控的 `Segmented。`
+<code src="./demo/control.tsx">受控模式</code>
+
+使用 `ReactNode` 自定义渲染每一个 `Segmented Item`。
+<code src="./demo/custom.tsx">自定义渲染</code>
+
+动态加载数据。
+<code src="./demo/moreLoaded.tsx">动态数据</code>
+
+我们为 `<Segmented />` 组件定义了三种尺寸（大、默认、小），高度分别为 `36px`、`28px` 和 `20px`。
+<code src="./demo/size.tsx">三种尺寸</code>
+
+给 `Segmented Item` 设置 `Icon。`
+<code src="./demo/icon.tsx">设置图标</code>
 
 ## API
 

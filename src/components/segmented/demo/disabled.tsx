@@ -3,8 +3,13 @@ import React from "react";
 
 const App: React.FC = () => (
   <>
-    <Segmented options={["Map", "Transit", "Satellite"]} disabled />
-    {/* <Segmented
+    <Segmented
+      style={{ marginBottom: "20px" }}
+      options={["Map", "Transit", "Satellite"]}
+      disabled
+    />
+    <br />
+    <Segmented
       options={[
         "Daily",
         { label: "Weekly", value: "Weekly", disabled: true },
@@ -12,7 +17,7 @@ const App: React.FC = () => (
         { label: "Quarterly", value: "Quarterly", disabled: true },
         "Yearly",
       ]}
-    /> */}
+    />
   </>
 );
 

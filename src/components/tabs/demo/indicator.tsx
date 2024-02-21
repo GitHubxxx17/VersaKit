@@ -1,5 +1,5 @@
 import type { TabsProps } from "@/index";
-import { Tabs } from "@/index";
+import { Segmented, Tabs } from "@/index";
 import React from "react";
 
 const onChange = (key: string) => {
@@ -12,31 +12,23 @@ const items: TabsProps["items"] = [
   { key: "3", label: "Tab 3", children: "Content of Tab Pane 3" },
 ];
 
+type Align = "start" | "center" | "end";
+
 const App: React.FC = () => {
+  const [alignValue, setAlignValue] = React.useState<Align>("center");
   return (
     <>
-      <div>start:</div>
-      <Tabs
-        defaultActiveKey="1"
-        items={items}
-        onChange={onChange}
-        indicator={{ size: (origin) => origin - 20, align: "start" }}
-        style={{ marginBottom: "20px" }}
+      <Segmented
+        defaultValue="center"
+        style={{ marginBottom: 8 }}
+        onChange={(value) => setAlignValue(value as Align)}
+        options={["start", "center", "end"]}
       />
-      <div>center:</div>
       <Tabs
         defaultActiveKey="1"
         items={items}
         onChange={onChange}
-        indicator={{ size: (origin) => origin - 20, align: "center" }}
-        style={{ marginBottom: "20px" }}
-      />
-      <div>end:</div>
-      <Tabs
-        defaultActiveKey="1"
-        items={items}
-        onChange={onChange}
-        indicator={{ size: (origin) => origin - 20, align: "end" }}
+        indicator={{ size: (origin) => origin - 20, align: alignValue }}
       />
     </>
   );

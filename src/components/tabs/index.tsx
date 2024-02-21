@@ -2,7 +2,7 @@ import { isValidReactNode } from "@/utils";
 import "./index.scss";
 
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 // 标签类型
 type tabItemType = {
@@ -75,6 +75,13 @@ const setLineStyle = (
     } else {
       line.style.left = `${tab.offsetLeft}px`;
     }
+    if (tabPosition == "top") {
+      line.style.top = "";
+    } else {
+      line.style.bottom = "";
+    }
+
+    line.style.height = "2px";
     line.style.width = `${width}px`;
   } else {
     let height = indicator?.size
@@ -90,6 +97,12 @@ const setLineStyle = (
     } else {
       line.style.top = `${tab.offsetTop}px`;
     }
+    if (tabPosition == "left") {
+      line.style.left = "";
+    } else {
+      line.style.right = "";
+    }
+    line.style.width = "2px";
     line.style.height = `${height}px`;
   }
 };
@@ -188,7 +201,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const [scrollStart, setScrollStart] = useState(false);
     const [scrollEnd, setScrollEnd] = useState(false);
     // 处理后的附加内容
-    const tabBarExtra = handleTabBarExtraContent(tabBarExtraContent);
+    const tabBarExtra = useMemo(
+      () => handleTabBarExtraContent(tabBarExtraContent),
+      [tabBarExtraContent]
+    );
     //  可编辑卡片
     const newtype = type == "editable-card" ? "card" : type;
 
@@ -210,6 +226,17 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       );
       onChange && onChange(item.key);
     };
+
+    // 指示条位置调整
+    useEffect(() => {
+      const index = items.findIndex((item) => item.key == currentKey);
+      setLineStyle(
+        lineRef.current!,
+        TabsRefs.current[index],
+        indicator,
+        TabPosition
+      );
+    }, [indicator?.align, TabPosition]);
 
     // 处理导航栏溢出滚动阴影
     const handleNavScroll = () => {
@@ -238,6 +265,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       }
     };
 
+    useEffect(() => {
+      handleNavScroll();
+    }, []);
+
     // 处理自定义编辑事件
     const handleEdit = (
       e: React.MouseEvent | React.KeyboardEvent | string,
@@ -258,6 +289,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           className,
           ...classNames,
         ].join(" ")}
+        key={TabPosition}
         {...rest}
       >
         <div className="versa-tabs-nav" style={tabBarStyle}>

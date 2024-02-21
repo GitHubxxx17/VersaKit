@@ -33,12 +33,11 @@
   }
 
   &-item {
+    display: flex;
     position: relative;
     z-index: 1;
     border-radius: $versa-border-radius;
     padding: 0 $versa-padding-sm;
-    min-height: 28px;
-    line-height: 28px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
@@ -86,6 +85,27 @@
     &-disabled {
       cursor: no-drop;
       color: $versa-color-text-disabled;
+    }
+
+    &-small {
+      min-height: 20px;
+      line-height: 20px;
+      padding: 0 $versa-padding-xs;
+    }
+
+    &-middle {
+      min-height: 28px;
+      line-height: 28px;
+    }
+
+    &-large {
+      min-height: 36px;
+      line-height: 36px;
+      font-size: $versa-font-size-lg;
+    }
+
+    &-icon ~ &-inner {
+      margin-left: 6px;
     }
   }
 
