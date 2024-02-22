@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { isFragment, isValidElement } from "../../utils";
@@ -63,7 +64,7 @@ function Tooltip(props: TooltipProps) {
   // 显示隐藏
   const [visible, setVisible] = useState(open);
   // 类名数组
-  let classNames: string[] = [];
+  let innerClassNames: string[] = [];
   // 触发组件ref
   const triggerRef = useRef<HTMLDivElement>();
   // 文字提示ref
@@ -77,14 +78,14 @@ function Tooltip(props: TooltipProps) {
   // 背景颜色
   let bgColor = "";
   // 移入延迟定时器
-  let enterTimer: ReturnType<typeof setTimeout> | null = null;
+  let enterTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // 移出延迟定时器
-  let leaveTimer: ReturnType<typeof setTimeout> | null = null;
+  let leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   //清除定时器
   const clearAllTimer = () => {
-    enterTimer && clearTimeout(enterTimer);
-    leaveTimer && clearTimeout(leaveTimer);
+    enterTimerRef.current && clearTimeout(enterTimerRef.current);
+    leaveTimerRef.current && clearTimeout(leaveTimerRef.current);
   };
 
   // 触发显示和隐藏
@@ -120,7 +121,7 @@ function Tooltip(props: TooltipProps) {
   //设置颜色
   if (color) {
     if (colors.includes(color)) {
-      classNames.push(`versa-tooltip-${color}`);
+      innerClassNames.push(`versa-tooltip-${color}`);
     } else {
       bgColor = color;
     }
@@ -133,7 +134,7 @@ function Tooltip(props: TooltipProps) {
     // 处理显示
     const handleVisible = () => {
       clearAllTimer();
-      enterTimer = setTimeout(() => {
+      enterTimerRef.current = setTimeout(() => {
         setVisible(!visible);
         triggerRef.current?.classList.add("versa-tooltip-active");
         if (visible && trigger == "click") {
@@ -146,7 +147,7 @@ function Tooltip(props: TooltipProps) {
     // 处理隐藏
     const handleHidden = () => {
       clearAllTimer();
-      leaveTimer = setTimeout(() => {
+      leaveTimerRef.current = setTimeout(() => {
         triggerRef.current?.classList.remove("versa-tooltip-active");
         setVisible(false);
       }, mouseLeaveDelay * 1000);
@@ -186,7 +187,11 @@ function Tooltip(props: TooltipProps) {
           ReactDOM.createPortal(
             <div
               ref={tooltipRef}
-              className={["versa-tooltip", ...classNames, className].join(" ")}
+              className={classNames(
+                "versa-tooltip",
+                ...innerClassNames,
+                className
+              )}
               style={patchStyle}
               {...rest}
             >

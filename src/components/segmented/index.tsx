@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 
@@ -18,7 +19,7 @@ export interface SegmentedProps
   disabled?: boolean;
   onChange?: (value: string | number) => void;
   value?: string | number;
-  size?: "small" | "middle" | "large";
+  size?: SizeType;
   defaultValue?: string | number;
 }
 
@@ -117,19 +118,18 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
 
     return (
       <div
-        className={[
+        className={classNames(
           "versa-segmented",
-          block ? "versa-segmented-block" : "",
-          className,
-        ].join(" ")}
+          { "versa-segmented-block": block },
+          className
+        )}
         ref={ref}
         {...rest}
       >
         <div
-          className={[
-            "versa-segmented-group",
-            slideIsMove ? "versa-segmented-group-move" : "",
-          ].join(" ")}
+          className={classNames("versa-segmented-group", {
+            "versa-segmented-group-move": slideIsMove,
+          })}
         >
           {option.map((item, index) => (
             <label
@@ -138,15 +138,16 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
                   labelsRef.current[index] = el;
                 }
               }}
-              className={[
+              className={classNames(
                 "versa-segmented-item",
-                !slideIsMove && currentIndex == index
-                  ? "versa-segmented-item-selected"
-                  : "",
-                (disabled || item.disabled) && "versa-segmented-item-disabled",
                 `versa-segmented-item-${size}`,
                 item.className,
-              ].join(" ")}
+                {
+                  "versa-segmented-item-selected":
+                    !slideIsMove && currentIndex == index,
+                  "versa-segmented-item-disabled": disabled || item.disabled,
+                }
+              )}
               onClick={() => {
                 if (disabled || item.disabled || index == currentIndex) return;
                 handleClick(index);

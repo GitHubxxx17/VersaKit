@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import React from "react";
-import "./Tag.scss";
 // 标签基础样式
-export interface CheckableTagProps {
+export interface CheckableTagProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "onChange"> {
   children?: React.ReactNode;
-  classNames?: string[];
   styles?: React.CSSProperties;
   checked: boolean;
   onChange?: (checked: boolean) => void;
@@ -12,35 +12,30 @@ export interface CheckableTagProps {
 
 const CheckableTag = React.forwardRef<HTMLSpanElement, CheckableTagProps>(
   (props, ref) => {
-    const {
-      children,
-      classNames = [],
-      styles,
-      checked,
-      onChange,
-      onClick,
-      ...restProps
-    } = props;
+    const { children, styles, checked, onChange, onClick, className, ...rest } =
+      props;
+
     const handleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
       onChange?.(!checked);
       onClick?.(e);
     };
 
-    if (checked) {
-      classNames.push("versa-tag-checked");
-    }
-
     return (
       <span
         ref={ref}
-        className={["versa-tag", "versa-tag-checkable", ...classNames].join(
-          " "
+        className={classNames(
+          "versa-tag",
+          "versa-tag-checkable",
+          {
+            "versa-tag-checked": checked,
+          },
+          className
         )}
         style={styles}
         onClick={handleClick}
-        {...restProps}
+        {...rest}
       >
-        {children ?? "可选择标签"}
+        {children}
       </span>
     );
   }

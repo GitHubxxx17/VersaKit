@@ -3,6 +3,7 @@ import "./Button.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 
+import classNames from "classnames";
 import { isNumber, isObject } from "../../utils/index";
 import { useCompactItemContext } from "../space/Compact";
 
@@ -16,8 +17,7 @@ interface BaseButtonProps {
   type?: "primary" | "dashed" | "link" | "text" | "default";
   disabled?: boolean;
   children?: React.ReactNode;
-  size?: "small" | "default" | "large";
-  classNames?: string[];
+  size?: SizeType;
   danger?: boolean;
   ghost?: boolean;
   block?: boolean;
@@ -72,7 +72,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       danger,
       ghost,
       block,
-      classNames = [],
       href,
       target,
       htmlType,
@@ -115,30 +114,29 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { compactDirection, compactItemClassnames, compactSize } =
       useCompactItemContext("versa-btn");
 
-    const innerClassNames = [
-      danger ? "versa-btn--danger" : "",
-      ghost ? "versa-btn--ghost" : "",
-      block ? "versa-btn--block" : "",
-      shape !== "default" ? `versa-btn--${shape}` : "",
-      size !== "default" ? `versa-btn--${size}` : "",
-      !children ? "versa-btn-only" : "",
-      innerLoading ? "versa-btn-loading" : "",
-    ].filter((className) => className !== "");
+    const innerClassNames = classNames({
+      "versa-btn--danger": danger,
+      "versa-btn--ghost": ghost,
+      "versa-btn--block": block,
+      [`versa-btn--${shape}`]: shape !== "default",
+      [`versa-btn--${size}`]: size !== "default",
+      "versa-btn-only": !children,
+      "versa-btn-loading": innerLoading,
+    });
 
     if (href) {
-      if (disabled) {
-        classNames.push("versa-btn--disabled");
-      }
       return (
         <a
-          className={[
+          className={classNames(
             "versa-btn",
             `versa-btn--${type}`,
             className,
             compactItemClassnames,
-            ...classNames,
-            ...innerClassNames,
-          ].join(" ")}
+            innerClassNames,
+            {
+              "versa-btn--disabled": disabled,
+            }
+          )}
           href={href}
           target={target}
           onClick={handleClick}
@@ -157,23 +155,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
-        className={[
+        className={classNames(
           "versa-btn",
           `versa-btn--${type}`,
           className,
           compactItemClassnames,
-          ...classNames,
-          ...innerClassNames,
-        ].join(" ")}
+          innerClassNames
+        )}
         ref={ref}
         disabled={disabled}
         onClick={handleClick}
         type={htmlType}
         {...rest}
       >
-        {!loading && icon && <span className={"versa-btn-icon"}>{icon}</span>}
+        {!loading && icon && <span className="versa-btn-icon">{icon}</span>}
         {loading && (
-          <span className={"versa-btn-icon"}>
+          <span className="versa-btn-icon">
             <LoadingOutlined />
           </span>
         )}

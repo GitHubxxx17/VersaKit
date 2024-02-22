@@ -1,11 +1,18 @@
-import { isValidReactNode } from "@/utils";
 import "./index.scss";
 
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import classNames from "classnames";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  TabBarGutterStyle,
+  editableHeight,
+  handleTabBarExtraContent,
+  isVertical,
+  setLineStyle,
+} from "./TabsHelper";
 
 // 标签类型
-type tabItemType = {
+export type tabItemType = {
   key: string;
   label: string;
   children: React.ReactNode;
@@ -16,7 +23,7 @@ type tabItemType = {
 };
 
 // 附加内容类型
-type tabBarExtraContentType = {
+export type tabBarExtraContentType = {
   left?: React.ReactNode;
   right?: React.ReactNode;
 };
@@ -27,7 +34,6 @@ type actionType = "add" | "remove";
 // 标签页基础属性
 export interface TabsProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  classNames?: string[];
   items?: tabItemType[];
   onChange?: (key: string) => void;
   center?: boolean;
@@ -37,8 +43,8 @@ export interface TabsProps
     align: "start" | "center" | "end";
   };
   tabBarExtraContent?: React.ReactNode | tabBarExtraContentType;
-  size?: "large" | "middle" | "small";
-  TabPosition?: "left" | "right" | "top" | "bottom";
+  size?: SizeType;
+  TabPosition?: PositionType;
   type?: "line" | "card" | "editable-card";
   activeKey?: string;
   addIcon?: React.ReactNode;
@@ -49,119 +55,10 @@ export interface TabsProps
   ) => void;
   onTabClick?: (key: string, event: React.MouseEvent) => void;
   tabBarGutter?: number;
-  onTabScroll?: (direction: "left" | "right" | "top" | "bottom") => void;
+  onTabScroll?: (direction: PositionType) => void;
   tabBarStyle?: React.CSSProperties;
   destroyInactiveTabPane?: boolean;
 }
-
-// 设置指示条的样式
-const setLineStyle = (
-  line: HTMLDivElement,
-  tab: HTMLDivElement,
-  indicator: TabsProps["indicator"],
-  tabPosition: TabsProps["TabPosition"]
-) => {
-  if (isVertical(tabPosition)) {
-    let width = indicator?.size
-      ? typeof indicator?.size === "number"
-        ? indicator?.size
-        : indicator?.size(tab.offsetWidth)
-      : tab.offsetWidth;
-
-    if (indicator?.align == "center") {
-      line.style.left = `${tab.offsetLeft + (tab.offsetWidth - width) / 2}px`;
-    } else if (indicator?.align == "end") {
-      line.style.left = `${tab.offsetLeft + tab.offsetWidth - width}px`;
-    } else {
-      line.style.left = `${tab.offsetLeft}px`;
-    }
-    if (tabPosition == "top") {
-      line.style.top = "";
-    } else {
-      line.style.bottom = "";
-    }
-
-    line.style.height = "2px";
-    line.style.width = `${width}px`;
-  } else {
-    let height = indicator?.size
-      ? typeof indicator?.size === "number"
-        ? indicator?.size
-        : indicator?.size(tab.offsetHeight)
-      : tab.offsetHeight;
-
-    if (indicator?.align == "center") {
-      line.style.top = `${tab.offsetTop + (tab.offsetHeight - height) / 2}px`;
-    } else if (indicator?.align == "end") {
-      line.style.top = `${tab.offsetTop + tab.offsetHeight - height}px`;
-    } else {
-      line.style.top = `${tab.offsetTop}px`;
-    }
-    if (tabPosition == "left") {
-      line.style.left = "";
-    } else {
-      line.style.right = "";
-    }
-    line.style.width = "2px";
-    line.style.height = `${height}px`;
-  }
-};
-
-// 处理附加内容
-const handleTabBarExtraContent = (
-  tabBarExtraContent: TabsProps["tabBarExtraContent"]
-): tabBarExtraContentType => {
-  if (isValidReactNode(tabBarExtraContent)) {
-    return {
-      right: tabBarExtraContent,
-    };
-  } else {
-    return tabBarExtraContent;
-  }
-};
-
-// 处理坐标方向
-const isVertical = (tabPosition: TabsProps["TabPosition"]) => {
-  if (tabPosition == "top" || tabPosition == "bottom") return true;
-  return false;
-};
-
-// 调整标签间隙
-const TabBarGutterStyle = (
-  tabPosition: TabsProps["TabPosition"],
-  tabBarGutter: number | undefined
-): React.CSSProperties => {
-  if (!tabBarGutter) return {};
-  if (isVertical(tabPosition)) {
-    return {
-      marginLeft: tabBarGutter,
-    };
-  } else {
-    return {
-      marginTop: tabBarGutter,
-    };
-  }
-};
-
-// 调整编辑区域高度
-const editableHeight = (
-  tabPosition: TabsProps["TabPosition"],
-  size: TabsProps["size"]
-): React.CSSProperties => {
-  if (size == "small") {
-    if (isVertical(tabPosition)) {
-      return {
-        padding: "10px 0",
-      };
-    } else {
-      return {
-        height: "34px",
-      };
-    }
-  }
-
-  return {};
-};
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
   (props: TabsProps, ref) => {
@@ -169,7 +66,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       items = [],
       onChange,
       center,
-      classNames = [],
       defaultActiveKey = items[0]?.key || "",
       indicator,
       tabBarExtraContent,
@@ -283,12 +179,11 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     return (
       <div
         ref={ref}
-        className={[
+        className={classNames(
           "versa-tabs",
           `versa-tabs-${TabPosition}`,
-          className,
-          ...classNames,
-        ].join(" ")}
+          className
+        )}
         key={TabPosition}
         {...rest}
       >
@@ -297,17 +192,15 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
             <div className="versa-tabs-nav-extra-left">{tabBarExtra.left}</div>
           )}
           <div
-            className={[
-              "versa-tabs-nav-scroll",
-              scrollStart ? "versa-tabs-scroll-start" : "",
-              scrollEnd ? "versa-tabs-scroll-end" : "",
-            ].join(" ")}
+            className={classNames("versa-tabs-nav-scroll", {
+              "versa-tabs-scroll-start": scrollStart,
+              "versa-tabs-scroll-end": scrollEnd,
+            })}
           >
             <div
-              className={[
-                "versa-tabs-nav-list",
-                center ? "versa-tabs-nav-center" : "",
-              ].join(" ")}
+              className={classNames("versa-tabs-nav-list", {
+                "versa-tabs-nav-center": center,
+              })}
               ref={scrollListRef}
               onScroll={() => {
                 onTabScroll && onTabScroll(TabPosition);
@@ -322,13 +215,15 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
                         TabsRefs.current[index] = el;
                       }
                     }}
-                    className={[
+                    className={classNames(
                       "versa-tabs-tab",
                       `versa-tabs-tab-${size}`,
                       `versa-tabs-tab-${newtype}`,
-                      currentKey == item.key ? "versa-tabs-tab-active" : "",
-                      item.disabled ? "versa-tabs-tab-disable" : "",
-                    ].join(" ")}
+                      {
+                        "versa-tabs-tab-active": currentKey == item.key,
+                        "versa-tabs-tab-disable": item.disabled,
+                      }
+                    )}
                     onClick={(e) => {
                       onTabClick && onTabClick(item.key, e);
                       handleClickTabs(item, index);
@@ -385,10 +280,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
         <div className="versa-tabs-conent">
           {destroyInactiveTabPane && (
             <div
-              className={[
+              className={classNames(
                 "versa-tabs-tabpane",
-                "versa-tabs-tabpane-active",
-              ].join(" ")}
+                "versa-tabs-tabpane-active"
+              )}
             >
               {items.find((item) => currentKey == item.key)?.children}
             </div>
@@ -396,10 +291,9 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           {!destroyInactiveTabPane &&
             items.map((item) => (
               <div
-                className={[
-                  "versa-tabs-tabpane",
-                  currentKey == item.key ? "versa-tabs-tabpane-active" : "",
-                ].join(" ")}
+                className={classNames("versa-tabs-tabpane", {
+                  "versa-tabs-tabpane-active": currentKey == item.key,
+                })}
                 key={item.key}
               >
                 {item.children}
