@@ -1,0 +1,65 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-space {
+  display: inline-flex;
+  transition: all 0.2s;
+
+  // 方向
+  &-vertical {
+    flex-direction: column;
+  }
+
+  &-horizontal {
+    flex-direction: row;
+  }
+
+  // 大小
+  &-small {
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+
+  &-middle {
+    column-gap: 16px;
+    row-gap: 16px;
+  }
+
+  &-large {
+    column-gap: 24px;
+    row-gap: 24px;
+  }
+
+  // 对齐
+  &-center {
+    align-items: center;
+  }
+  &-start {
+    align-items: start;
+  }
+  &-end {
+    align-items: end;
+  }
+  &-baseline {
+    align-items: baseline;
+  }
+
+  // 换行
+  &-wrap {
+    flex-wrap: wrap;
+  }
+
+  // 紧凑布局
+  &-compact {
+    display: inline-flex;
+
+    &-block {
+      display: flex;
+      width: 100%;
+    }
+
+    &-item {
+      border-radius: none;
+    }
+  }
+}

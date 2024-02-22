@@ -5,7 +5,7 @@
   font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   border: 0;
-  border-radius: 6px;
+  border-radius: $versa-border-radius;
   cursor: pointer;
   display: inline-block;
   line-height: 1;
@@ -14,6 +14,7 @@
   font-size: $versa-font-size;
   padding: 4px 15px;
   transition: all 0.2s;
+  white-space: nowrap;
 
   &-only {
     padding: 4px 0;
@@ -45,10 +46,12 @@
     &:not(:disabled):hover {
       border-color: $versa-blue-5;
       color: $versa-blue-5;
+      z-index: 1;
     }
     &:not(:disabled):active {
       border-color: $versa-blue-7;
       color: $versa-blue-7;
+      z-index: 1;
     }
   }
   &--link {
@@ -67,9 +70,11 @@
     background-color: #fff;
     &:not(:disabled):hover {
       background-color: #eaeaea;
+      z-index: 1;
     }
     &:not(:disabled):active {
       background-color: #bfbfbf;
+      z-index: 1;
     }
   }
   &--default {
@@ -79,10 +84,12 @@
     &:not(:disabled):hover {
       border-color: $versa-blue-5;
       color: $versa-blue-5;
+      z-index: 1;
     }
     &:not(:disabled):active {
       border-color: $versa-blue-7;
       color: $versa-blue-7;
+      z-index: 1;
     }
   }
 
@@ -104,9 +111,11 @@
     background-color: $versa-color-error-text;
     &:not(:disabled):hover {
       background-color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       background-color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
   &--dashed.versa-btn--danger {
@@ -116,10 +125,12 @@
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       border-color: $versa-color-error-text-active;
       color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
   &--link.versa-btn--danger {
@@ -128,9 +139,11 @@
     border: none;
     &:not(:disabled):hover {
       color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
   &--text.versa-btn--danger {
@@ -139,9 +152,11 @@
     &:not(:disabled):hover {
       color: $versa-color-error-hover;
       background-color: $versa-color-error-bg-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       background-color: #fbdcda;
+      z-index: 1;
     }
   }
   &--default.versa-btn--danger {
@@ -151,10 +166,12 @@
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       border-color: $versa-color-error-text-active;
       color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
 
@@ -175,11 +192,13 @@
       background-color: transparent;
       color: $versa-blue-5;
       border-color: $versa-blue-5;
+      z-index: 1;
     }
     &:not(:disabled):active {
       background-color: transparent;
       color: $versa-blue-7;
       border-color: $versa-blue-7;
+      z-index: 1;
     }
   }
   &--primary.versa-btn--ghost.versa-btn--danger {
@@ -188,10 +207,12 @@
     &:not(:disabled):hover {
       color: $versa-color-error-hover;
       border-color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       color: $versa-color-error-text-active;
       border-color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
   &--dashed.versa-btn--ghost {
@@ -204,10 +225,12 @@
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       border-color: $versa-color-error-text-active;
       color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
   &--default.versa-btn--ghost {
@@ -220,25 +243,26 @@
     &:not(:disabled):hover {
       border-color: $versa-color-error-border-hover;
       color: $versa-color-error-hover;
+      z-index: 1;
     }
     &:not(:disabled):active {
       border-color: $versa-color-error-text-active;
       color: $versa-color-error-text-active;
+      z-index: 1;
     }
   }
 
   //按钮失效
   &:disabled,
   &--disabled {
-    background-color: #d9d9d9;
+    background-color: $versa-color-bg-container-disabled;
     color: $versa-color-text-quaternary !important;
-    border-color: $versa-color-text-disabled !important;
+    border-color: $versa-color-border !important;
     cursor: no-drop;
-    pointer-events: none;
   }
   &--primary:disabled,
   &--primary.versa-btn--disabled {
-    border: 1px solid $versa-color-text-disabled;
+    border: 1px solid $versa-color-border;
   }
   &--text:disabled,
   &--link:disabled,
@@ -266,6 +290,67 @@
   }
   &--round.versa-btn--large {
     border-radius: $versa-height-lg;
+  }
+
+  // 紧凑布局
+  &-compact {
+    position: relative;
+
+    &-horizontal {
+      margin-inline-end: -1px;
+    }
+
+    &-vertical {
+      margin-bottom: -1px;
+    }
+
+    &-first-item {
+      border-radius: $versa-border-radius 0 0 $versa-border-radius;
+    }
+
+    &-item {
+      border-radius: 0px;
+    }
+
+    &-last-item {
+      border-radius: 0 $versa-border-radius $versa-border-radius 0;
+    }
+
+    &-vertical-first-item {
+      border-radius: $versa-border-radius $versa-border-radius 0 0;
+    }
+
+    &-vertical-item {
+      border-radius: 0px;
+    }
+
+    &-vertical-last-item {
+      border-radius: 0 0 $versa-border-radius $versa-border-radius;
+    }
+  }
+
+  &-compact-horizontal.versa-btn--primary:not([disabled])
+    + &-compact-horizontal.versa-btn--primary:not([disabled])::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    background-color: $versa-blue-5;
+    content: "";
+  }
+
+  &-compact-vertical.versa-btn--primary:not([disabled])
+    + &-compact-vertical.versa-btn--primary:not([disabled])::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    background-color: $versa-blue-5;
+    content: "";
   }
 }
 

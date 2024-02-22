@@ -4,6 +4,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 
 import { isNumber, isObject } from "../../utils/index";
+import { useCompactItemContext } from "../space/Compact";
 
 type loadingType = {
   loading: boolean;
@@ -60,7 +61,7 @@ const handleLoadingProps = (
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (props: ButtonProps, ref) => {
+  (props, ref) => {
     const {
       type = "default",
       disabled,
@@ -111,6 +112,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onClick?.(e);
     };
 
+    const { compactDirection, compactItemClassnames, compactSize } =
+      useCompactItemContext("versa-btn");
+
     const innerClassNames = [
       danger ? "versa-btn--danger" : "",
       ghost ? "versa-btn--ghost" : "",
@@ -131,6 +135,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             "versa-btn",
             `versa-btn--${type}`,
             className,
+            compactItemClassnames,
             ...classNames,
             ...innerClassNames,
           ].join(" ")}
@@ -156,6 +161,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "versa-btn",
           `versa-btn--${type}`,
           className,
+          compactItemClassnames,
           ...classNames,
           ...innerClassNames,
         ].join(" ")}
