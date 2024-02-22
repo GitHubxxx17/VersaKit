@@ -3,7 +3,7 @@ import "./index.scss";
 
 // 标签对象类型
 type optItemType = {
-  label: React.ReactNode;
+  label?: React.ReactNode;
   value: string;
   icon?: React.ReactNode;
   disabled?: boolean;
@@ -156,7 +156,9 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
               {item.icon && (
                 <span className="versa-segmented-item-icon">{item.icon}</span>
               )}
-              <div className="versa-segmented-item-inner">{item.label}</div>
+              {item.label && (
+                <div className="versa-segmented-item-inner">{item.label}</div>
+              )}
             </label>
           ))}
           <div ref={slideRef} className="versa-segmented-slide"></div>

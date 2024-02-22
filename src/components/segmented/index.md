@@ -39,8 +39,11 @@ group:
 我们为 `<Segmented />` 组件定义了三种尺寸（大、默认、小），高度分别为 `36px`、`28px` 和 `20px`。
 <code src="./demo/size.tsx">三种尺寸</code>
 
-给 `Segmented Item` 设置 `Icon。`
+给 `Segmented Item` 设置 `Icon`。
 <code src="./demo/icon.tsx">设置图标</code>
+
+在 `Segmented Item` 选项中只设置 `Icon`。
+<code src="./demo/onlyIcon.tsx">只设置图标</code>
 
 ## API
 
