@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Segmented from "./index";
 
 const meta = {
-  title: "Example/Segmented",
+  title: "数据展示/Segmented",
   component: Segmented,
   parameters: {
     layout: "centered",

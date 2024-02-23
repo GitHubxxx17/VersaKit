@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Space from "./index";
 
 const meta = {
-  title: "Example/Space",
+  title: "布局/Space",
   component: Space,
   parameters: {
     layout: "centered",
@@ -15,5 +15,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Common: Story = {
-  args: {},
+  args: {
+    children: "space",
+  },
 };
