@@ -1,0 +1,39 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-row {
+  width: 100%;
+  font-size: $versa-font-size;
+  display: flex;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.versa-col {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: $versa-font-size;
+  color: #fff;
+  text-align: center;
+  min-height: 30px;
+  line-height: 30px;
+  margin: 8px 0;
+  transition: all 0.2s;
+}
+
+.dumi-default-previewer-demo
+  .versa-row
+  > div:not(.gutter-row):nth-child(2n + 1) {
+  background-color: $versa-blue-5;
+}
+
+.dumi-default-previewer-demo .versa-row > div:not(.gutter-row) {
+  background-color: $versa-blue-6;
+}
+
+//遍历span
+@for $i from 1 to 24 {
+  .versa-col-#{$i} {
+    flex: 0 0 calc($i / 24 * 100%);
+  }
+}
