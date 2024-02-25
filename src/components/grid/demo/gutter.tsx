@@ -1,7 +1,7 @@
 import { Col, Row } from "@/index";
 import React from "react";
 
-const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0" };
+const style: React.CSSProperties = { background: "#0092ff" };
 
 const App: React.FC = () => (
   <>
