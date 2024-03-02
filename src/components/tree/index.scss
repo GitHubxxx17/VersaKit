@@ -1,0 +1,131 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-tree {
+  &-treeNode {
+    display: flex;
+    align-items: center;
+    padding-bottom: 4px;
+
+    &-disabled {
+      .versa-tree-title {
+        cursor: not-allowed;
+        color: $versa-color-text-disabled;
+
+        &:hover {
+          background-color: initial;
+        }
+      }
+    }
+  }
+
+  &-indent {
+    height: 100%;
+    span {
+      display: inline-block;
+      height: 100%;
+      width: 24px;
+    }
+  }
+
+  &-switcher {
+    width: 24px;
+    height: 24px;
+    font-size: $versa-font-size-xs;
+    border-radius: $versa-border-radius;
+    transition: all 0.2s;
+    text-align: center;
+    line-height: 24px;
+    cursor: pointer;
+
+    &:not(.versa-tree-switcher-noop):hover {
+      background-color: $versa-color-bg-text-hover;
+    }
+
+    &-inner {
+      transition: all 0.2s;
+
+      &-rotate {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+
+  &-checkbox {
+    cursor: pointer;
+    width: $versa-height-xs;
+    height: $versa-height-xs;
+    margin-right: $versa-margin-xs;
+    border-radius: $versa-border-radius-sm;
+    color: #fff;
+
+    &_inner {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      line-height: $versa-height-xs;
+      font-size: $versa-font-size-xs;
+      border-radius: $versa-border-radius-sm;
+      border: 1px solid $versa-color-border;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: $versa-blue-5;
+      }
+    }
+
+    &-checked {
+      border: none;
+      background-color: $versa-blue-6;
+
+      &:hover {
+        background-color: $versa-blue-5;
+      }
+    }
+
+    &-disabled {
+      background-color: $versa-color-bg-container-disabled;
+
+      .versa-tree-checkbox_inner:hover {
+        border-color: $versa-color-border;
+      }
+
+      .versa-tree-checkbox-checked {
+        background-color: transparent;
+        color: $versa-color-text-disabled;
+      }
+    }
+  }
+
+  &-title {
+    padding: 0 calc($versa-padding-xs / 2);
+    border-radius: $versa-border-radius;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: $versa-height-sm;
+    line-height: $versa-height-sm;
+    font-size: $versa-font-size;
+
+    &:hover {
+      background-color: $versa-color-bg-text-hover;
+    }
+  }
+
+  &-switch {
+    overflow: hidden;
+    animation-timing-function: linear;
+  }
+
+  // &-switch-animate {
+  //   animation: test 0.2s forwards;
+  // }
+}
+
+@keyframes test {
+  0% {
+    max-height: 1000px;
+  }
+  100% {
+    max-height: 0;
+  }
+}
