@@ -43,6 +43,7 @@ const Transition = (props: TransitionProps) => {
           ],
           animateTime
         ).onfinish = () => {
+          transitionRef.current!.style.display = "none";
           setHide(false);
         };
       });

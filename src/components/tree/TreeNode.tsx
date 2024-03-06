@@ -8,8 +8,22 @@ import "./index.scss";
 export interface TreeNodeProps extends React.HTMLAttributes<HTMLDivElement> {
   node: FlatTreeDataNode;
   nodeKey: mapKeyType;
-  handleClickSwitcher: (node: FlatTreeDataNode, nodeKey: mapKeyType) => void;
-  handleClickCheck: (node: FlatTreeDataNode, nodeKey: mapKeyType) => void;
+  handleClickSwitcher: (
+    node: FlatTreeDataNode,
+    nodeKey: mapKeyType,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => void;
+  handleClickCheck: (
+    node: FlatTreeDataNode,
+    nodeKey: mapKeyType,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => void;
+  handleSelected: (
+    node: FlatTreeDataNode,
+    nodeKey: mapKeyType,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => void;
+  checkable: boolean;
 }
 
 const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>(
@@ -19,6 +33,8 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>(
       nodeKey,
       handleClickSwitcher,
       handleClickCheck,
+      handleSelected,
+      checkable,
       className,
       ...rest
     } = props;
@@ -45,35 +61,46 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>(
           className={classNames("versa-tree-switcher", {
             "versa-tree-switcher-noop": node.children.length == 0,
           })}
-          onClick={() => {
+          onClick={(e) => {
             if (node.children.length == 0) return;
-            handleClickSwitcher(node, nodeKey);
+            handleClickSwitcher(node, nodeKey, e);
           }}
         >
           {node.children.length !== 0 && (
             <CaretDownOutlined
               className={classNames("versa-tree-switcher-inner", {
-                "versa-tree-switcher-inner-rotate": !node.switch,
+                "versa-tree-switcher-inner-rotate": !node.expand,
               })}
             />
           )}
         </div>
-        <div
-          className={classNames("versa-tree-checkbox", {
-            "versa-tree-checkbox-disabled":
-              node.disabled || node.disableCheckbox,
-          })}
-          onClick={() => handleClickCheck(node, nodeKey)}
-        >
+        {checkable && (
           <div
-            className={classNames("versa-tree-checkbox_inner", {
-              "versa-tree-checkbox-checked": node.checked,
+            className={classNames("versa-tree-checkbox", {
+              "versa-tree-checkbox-disabled":
+                node.disabled || node.disableCheckbox,
             })}
+            onClick={(e) => handleClickCheck(node, nodeKey, e)}
           >
-            <CheckOutlined />
+            <div
+              className={classNames("versa-tree-checkbox_inner", {
+                "versa-tree-checkbox-checked": node.checked,
+                "versa-tree-checkbox-checked-nofull":
+                  !node.checked && node.hasChild,
+              })}
+            >
+              {node.checked && <CheckOutlined />}
+            </div>
           </div>
+        )}
+        <div
+          className={classNames("versa-tree-title", {
+            "versa-tree-title-selected": !node.disabled && node.selected,
+          })}
+          onClick={(e) => handleSelected(node, nodeKey, e)}
+        >
+          {node.title}
         </div>
-        <div className="versa-tree-title">{node.title}</div>
       </div>
     );
   }

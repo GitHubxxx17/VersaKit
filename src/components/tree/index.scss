@@ -33,7 +33,7 @@
     height: 24px;
     font-size: $versa-font-size-xs;
     border-radius: $versa-border-radius;
-    transition: all 0.2s;
+    transition: all 0.3s;
     text-align: center;
     line-height: 24px;
     cursor: pointer;
@@ -81,10 +81,23 @@
       &:hover {
         background-color: $versa-blue-5;
       }
+
+      &-nofull {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::after {
+          content: "";
+          width: 8px;
+          height: 8px;
+          background-color: $versa-blue-6;
+        }
+      }
     }
 
     &-disabled {
       background-color: $versa-color-bg-container-disabled;
+      color: transparent;
 
       .versa-tree-checkbox_inner:hover {
         border-color: $versa-color-border;
@@ -109,16 +122,15 @@
     &:hover {
       background-color: $versa-color-bg-text-hover;
     }
+
+    &-selected {
+      background-color: $versa-blue-1 !important;
+    }
   }
 
   &-switch {
     overflow: hidden;
-    animation-timing-function: linear;
   }
-
-  // &-switch-animate {
-  //   animation: test 0.2s forwards;
-  // }
 }
 
 @keyframes test {

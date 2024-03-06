@@ -1,6 +1,15 @@
 import * as React from "react";
 
 /**
+ * 判断是否为字符串类型
+ * @param {*} str
+ * @return {*}  {boolean}
+ */
+export const isString = (str: any): str is string => {
+  return str && typeof str === "string";
+};
+
+/**
  * 判断是否为对象类型
  * @param {*} obj
  * @return {*}  {boolean}
