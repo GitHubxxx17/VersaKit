@@ -20,11 +20,49 @@
   }
 
   &-indent {
-    height: 100%;
-    span {
+    align-self: stretch;
+    &-item {
+      position: relative;
       display: inline-block;
       height: 100%;
       width: 24px;
+    }
+
+    &-line,
+    &-endLine {
+      &::before {
+        content: "";
+        height: calc(100% + 4px);
+        width: 1px;
+        background-color: #d9d9d9;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    &-endLine {
+      &::after {
+        content: "";
+        width: 12px;
+        height: 1px;
+        background-color: #d9d9d9;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
+    }
+
+    &-endLine-last {
+      &::before {
+        height: 14px;
+      }
+    }
+
+    &-icon {
+      font-size: $versa-font-size;
+      margin: 0 5px;
     }
   }
 
@@ -43,11 +81,20 @@
     }
 
     &-inner {
-      transition: all 0.2s;
+      display: inline-block;
+      transition: all 0.3s;
 
       &-rotate {
         transform: rotate(-90deg);
       }
+      &-custom {
+        font-size: $versa-font-size;
+      }
+    }
+
+    &-loading {
+      font-size: $versa-font-size;
+      color: $versa-blue-6;
     }
   }
 
@@ -126,6 +173,41 @@
     &-selected {
       background-color: $versa-blue-1 !important;
     }
+
+    &-block {
+      width: 100%;
+    }
+  }
+
+  &-directory {
+    padding-bottom: 0;
+    margin-bottom: 4px;
+    transition: all 0.3s;
+    &:hover {
+      background-color: $versa-color-bg-text-hover;
+    }
+
+    &-title {
+      width: 100%;
+      min-height: $versa-height-sm;
+      line-height: $versa-height-sm;
+      font-size: $versa-font-size;
+      padding: 0 calc($versa-padding-xs / 2);
+    }
+
+    &-selected {
+      color: #fff;
+      background-color: $versa-blue-6 !important;
+    }
+
+    .versa-tree-switcher,
+    .versa-tree-switcher-inner {
+      transition: none;
+    }
+  }
+
+  &-icon {
+    margin-right: 6px;
   }
 
   &-switch {
@@ -140,4 +222,8 @@
   100% {
     max-height: 0;
   }
+}
+
+.site-tree-search-value {
+  color: #f50;
 }

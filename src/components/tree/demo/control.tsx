@@ -78,7 +78,7 @@ const App: React.FC = () => {
       checkable
       onExpand={onExpand}
       expandedKeys={expandedKeys}
-      //   autoExpandParent={autoExpandParent}
+      autoExpandParent={autoExpandParent}
       onCheck={onCheck}
       checkedKeys={checkedKeys}
       onSelect={onSelect}

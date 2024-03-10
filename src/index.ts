@@ -2,6 +2,7 @@ export {
   default as Button,
   type ButtonProps,
 } from "./components/button/Button";
+export { default as Flex, type FlexProps } from "./components/flex";
 export { Col, Row, type ColProps, type RowProps } from "./components/grid";
 export {
   default as Segmented,

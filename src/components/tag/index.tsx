@@ -23,10 +23,7 @@ export interface TagType
   CheckableTag: typeof CheckableTag;
 }
 
-const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
-  props,
-  ref
-) => {
+const Tag = React.forwardRef<HTMLSpanElement, TagProps>((props, ref) => {
   const {
     children,
     color,
@@ -99,8 +96,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
       </span>
     )
   );
-};
-const Tag = React.forwardRef<HTMLSpanElement, TagProps>(InternalTag) as TagType;
+}) as TagType;
 // 可选择标签
 Tag.CheckableTag = CheckableTag;
 

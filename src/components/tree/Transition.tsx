@@ -29,39 +29,46 @@ const Transition = (props: TransitionProps) => {
       return;
     }
     setInnerTrgger(trgger);
-
-    // 如果触发说明进行隐藏动画，否则进行展开动画
-    if (trgger) {
-      setShow(false);
-      setHide(true);
-      setTimeout(() => {
-        const height = transitionRef.current?.offsetHeight;
-        transitionRef.current!.animate(
-          [
-            { opacity: 1, height: `${height}px` },
-            { opacity: 0, height: "0px" },
-          ],
-          animateTime
-        ).onfinish = () => {
-          transitionRef.current!.style.display = "none";
-          setHide(false);
-        };
-      });
-    } else {
-      setHide(true);
-      setTimeout(() => {
-        const height = transitionRef.current?.offsetHeight;
-        transitionRef.current!.animate(
-          [
-            { opacity: 0, height: "0px" },
-            { opacity: 1, height: `${height}px` },
-          ],
-          animateTime
-        ).onfinish = () => {
-          setHide(false);
-          setShow(true);
-        };
-      });
+    try {
+      // 如果触发说明进行隐藏动画，否则进行展开动画
+      if (trgger) {
+        setShow(false);
+        setHide(true);
+        setTimeout(() => {
+          const transition = transitionRef.current;
+          if (!transition) return;
+          const height = transition.offsetHeight;
+          transition.animate(
+            [
+              { opacity: 1, height: `${height}px` },
+              { opacity: 0, height: "0px" },
+            ],
+            animateTime
+          ).onfinish = () => {
+            transition.style.display = "none";
+            setHide(false);
+          };
+        });
+      } else {
+        setHide(true);
+        setTimeout(() => {
+          const transition = transitionRef.current;
+          if (!transition) return;
+          const height = transition.offsetHeight;
+          transition.animate(
+            [
+              { opacity: 0, height: "0px" },
+              { opacity: 1, height: `${height}px` },
+            ],
+            animateTime
+          ).onfinish = () => {
+            setHide(false);
+            setShow(true);
+          };
+        });
+      }
+    } catch (err) {
+      console.error("Tree：", err);
     }
   }, [trgger]);
 

@@ -12,6 +12,11 @@ export type TreeDataNode = {
   children?: TreeDataNode[];
   disabled?: boolean;
   disableCheckbox?: boolean;
+  icon?: React.ReactNode | ((selected: boolean) => React.ReactNode);
+  switcherIcon?: React.ReactNode;
+  isLeaf?: boolean;
+  checkable?: boolean;
+  selectable?: boolean;
 };
 
 // 哈希树节点类型
@@ -24,6 +29,7 @@ export type FlatTreeDataNode = Partial<Omit<TreeDataNode, "children">> & {
   expand: boolean;
   selected: boolean;
   hasChild: boolean;
+  loading?: boolean;
 };
 
 // 哈希树键类型
@@ -58,6 +64,19 @@ export interface TreeProps
   expandedKeys?: string[];
   checkedKeys?: string[];
   selectedKey?: string;
+  autoExpandParent?: boolean;
+  blockNode?: boolean;
+  showLine?: boolean;
+  switcherIcon?: React.ReactNode;
+  showIcon?: boolean;
+  loadData?: ({
+    key,
+    children,
+  }: {
+    key: string;
+    children?: TreeDataNode[];
+  }) => Promise<void>;
+  directory?: boolean;
 }
 // 动画执行时间
 export const animateTime = 300;
@@ -81,6 +100,13 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
     expandedKeys,
     checkedKeys,
     selectedKey,
+    autoExpandParent = true,
+    blockNode = false,
+    showLine = false,
+    switcherIcon,
+    showIcon = false,
+    loadData,
+    directory = false,
     className,
     ...rest
   } = props;
@@ -104,14 +130,18 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
   // 当前展开的key
   const expandKeySet = useRef<Set<string>>(new Set());
 
+  const controlExpand = (data: Map<mapKeyType, FlatTreeDataNode>) => {
+    if (expandedKeys) expandKeySet.current = new Set(expandedKeys);
+    for (let [key, node] of data) {
+      node.expand = expandKeySet.current.has(getString(key));
+    }
+  };
+
   // 受控展开
   useEffect(() => {
     // 受控组件 由外部控制更改
     if (flatTreeData.size == 0 && !expandedKeys) return;
-    expandKeySet.current = new Set(expandedKeys);
-    for (let [key, node] of flatTreeData) {
-      node.expand = expandKeySet.current.has(getString(key));
-    }
+    controlExpand(flatTreeData);
     setFlatTreeData(new Map(flatTreeData));
   }, [expandedKeys]);
 
@@ -145,8 +175,19 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
       };
       onExpand && onExpand([...expandKeySet.current], info);
 
+      // 异步加载
+      if (loadData) {
+        // 当展开子节点且没有子节点时进行加载
+        if (node.expand && !node.children.length) node.loading = true;
+        loadData({
+          key: getString(key),
+          children: originTreeData.get(getString(key))?.children,
+        });
+      }
+
       switchTimerRef.current = setTimeout(() => {
         switchTimerRef.current = null;
+        if (loadData) node.loading = false;
       }, animateTime);
     },
     [flatTreeData]
@@ -291,9 +332,11 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
         // 如果当前选中节点和点击的节点不相同则选中
         if (currSelectedkey != key) {
           node.selected = true;
+          setCurrselectedKey(key);
+        } else {
+          setCurrselectedKey("");
         }
         setFlatTreeData(new Map(flatTreeData));
-        setCurrselectedKey(key);
       }
 
       // 触发选中事件
@@ -409,6 +452,9 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
         // 有子节点被勾选
         hasChild = hasChild || checked || currItem.hasChild;
       }
+
+      if (!autoExpandParent) parentExpand = false;
+
       return {
         flatList,
         childKey,
@@ -433,9 +479,10 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
       hasChild: true,
     });
 
-    console.log(flatList);
-
-    setFlatTreeData(flatList);
+    setFlatTreeData((prev) => {
+      if (prev.size != 0 && (expandedKeys || loadData)) controlExpand(flatList);
+      return flatList;
+    });
     setOriginTreeData(originTreeData);
 
     () => {
@@ -445,7 +492,11 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
 
   // 遍历哈希树构建子节点
   const getTreeNode = useCallback(
-    (key: mapKeyType): React.ReactNode => {
+    (
+      key: mapKeyType,
+      isLast: boolean,
+      parentIsLast: boolean[]
+    ): React.ReactNode => {
       if (!flatTreeData.has(key)) return;
       const node = flatTreeData.get(key)!;
       return (
@@ -460,6 +511,14 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
                 handleClickCheck={handleClickCheck}
                 handleSelected={handleSelected}
                 checkable={checkable}
+                blockNode={blockNode}
+                showLine={showLine}
+                switcherIcon={switcherIcon}
+                isLast={isLast}
+                parentIsLast={parentIsLast}
+                showIcon={showIcon}
+                loadData={loadData}
+                directory={directory}
               ></TreeNode>
               {node.children.length !== 0 && (
                 <Transition
@@ -467,14 +526,21 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
                   node={node}
                   flatTreeData={flatTreeData}
                 >
-                  {node.children.map((childKey) => getTreeNode(childKey))}
+                  {node.children.map((childKey, index) =>
+                    getTreeNode(childKey, node.children.length - 1 == index, [
+                      ...parentIsLast,
+                      !isLast,
+                    ])
+                  )}
                 </Transition>
               )}
             </>
           )}
 
           {key == mapKeyRef.current &&
-            node.children.map((childKey) => getTreeNode(childKey))}
+            node.children.map((childKey, index) =>
+              getTreeNode(childKey, node.children.length - 1 == index, [])
+            )}
         </React.Fragment>
       );
     },
@@ -483,7 +549,7 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
 
   return (
     <div className={classNames("versa-tree", className)} ref={ref} {...rest}>
-      {getTreeNode(mapKeyRef.current)}
+      {getTreeNode(mapKeyRef.current, false, [])}
     </div>
   );
 });
