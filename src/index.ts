@@ -4,6 +4,12 @@ export {
 } from "./components/button/Button";
 export { Col, Row, type ColProps, type RowProps } from "./components/grid";
 export {
+  default as Radio,
+  type RadioChangeEventType,
+  type RadioProps,
+} from "./components/radio";
+export { type RadioGroupProps } from "./components/radio/Group";
+export {
   default as Segmented,
   type SegmentedProps,
 } from "./components/segmented";

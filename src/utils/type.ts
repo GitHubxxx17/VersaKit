@@ -1,6 +1,15 @@
 import * as React from "react";
 
 /**
+ * 判断数据是否存在
+ * @param {*} data
+ * @return {*}  {boolean}
+ */
+export const isExist = <T>(data: T): data is Exclude<T, undefined> => {
+  return typeof data !== "undefined";
+};
+
+/**
  * 判断是否为字符串类型
  * @param {*} str
  * @return {*}  {boolean}

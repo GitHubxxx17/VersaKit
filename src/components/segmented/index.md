@@ -27,7 +27,7 @@ group:
 `Segmented` 不可用。
 <code src="./demo/disabled.tsx">不可用</code>
 
-受控的 `Segmented。`
+受控的 `Segmented`。
 <code src="./demo/control.tsx">受控模式</code>
 
 使用 `ReactNode` 自定义渲染每一个 `Segmented Item`。

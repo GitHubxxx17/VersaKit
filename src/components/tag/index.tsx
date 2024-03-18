@@ -1,6 +1,6 @@
 import { CloseOutlined } from "@ant-design/icons";
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { isBoolean } from "../../utils";
 import CheckableTag from "./CheckableTag";
 import "./index.scss";
@@ -39,8 +39,10 @@ const Tag = React.forwardRef<HTMLSpanElement, TagProps>((props, ref) => {
 
   // 合并样式
   let patchStyle = style;
-
+  // 内部合并类数组
   const innerClassNames: string[] = [];
+  // 设置关闭
+  const [close, setClose] = useState(false);
 
   // 颜色
   if (color && [...colors, ...status].includes(color)) {
@@ -54,11 +56,12 @@ const Tag = React.forwardRef<HTMLSpanElement, TagProps>((props, ref) => {
     };
   }
 
-  // 设置关闭
-  const [close, setClose] = useState(false);
-
-  // 处理关闭事件
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  /**
+   * 处理关闭事件
+   * @param {React.MouseEvent<HTMLElement>} e 鼠标事件
+   * @return {*}
+   */
+  const handleClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     onClose?.(e);
     //如果设置阻止默认事件
@@ -66,7 +69,7 @@ const Tag = React.forwardRef<HTMLSpanElement, TagProps>((props, ref) => {
       return;
     }
     setClose(true);
-  };
+  }, []);
 
   return (
     !close && (

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useCallback } from "react";
 // 标签基础样式
 export interface CheckableTagProps
   extends Omit<React.HTMLAttributes<HTMLSpanElement>, "onChange"> {
@@ -15,10 +15,17 @@ const CheckableTag = React.forwardRef<HTMLSpanElement, CheckableTagProps>(
     const { children, styles, checked, onChange, onClick, className, ...rest } =
       props;
 
-    const handleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-      onChange?.(!checked);
-      onClick?.(e);
-    };
+    /**
+     * 处理点击事件
+     * @param {React.MouseEvent<HTMLSpanElement, MouseEvent>} e
+     */
+    const handleClick = useCallback(
+      (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        onChange?.(!checked);
+        onClick?.(e);
+      },
+      []
+    );
 
     return (
       <span

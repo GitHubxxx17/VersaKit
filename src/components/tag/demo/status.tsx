@@ -6,7 +6,7 @@ const App: React.FC = () => {
   return (
     <div>
       {status.map((color: string) => (
-        <Tag color={color} key={color} styles={{ margin: "0 6px 6px 0" }}>
+        <Tag color={color} key={color} style={{ margin: "0 6px 6px 0" }}>
           {color}
         </Tag>
       ))}

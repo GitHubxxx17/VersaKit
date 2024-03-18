@@ -8,7 +8,7 @@ const App: React.FC = () => {
       {[...colors, ...status].map((color: string) => (
         <Tag
           color={color}
-          styles={{ margin: "0 6px 6px 0" }}
+          style={{ margin: "0 6px 6px 0" }}
           bordered={false}
           key={color}
         >

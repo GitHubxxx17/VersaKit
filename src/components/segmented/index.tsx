@@ -1,5 +1,6 @@
+import { isNumber, isString } from "@/utils";
 import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./index.scss";
 
 // 标签对象类型
@@ -23,18 +24,26 @@ export interface SegmentedProps
   defaultValue?: string | number;
 }
 
-// 设置滑块样式
+/**
+ * 设置滑块样式
+ * @param {HTMLDivElement} slide 滑块dom节点
+ * @param {HTMLLabelElement} label 选中的标签dom节点
+ */
 const setSlideStyle = (slide: HTMLDivElement, label: HTMLLabelElement) => {
   slide.style.left = `${label.offsetLeft}px`;
   slide.style.width = `${label.offsetWidth}px`;
 };
 
-// 将options全部处理成optItemType
+/**
+ * 将options中的字符串和数字全部处理成optItemType类型的对象
+ * @param {((number | string | optItemType)[])} options 标签项
+ * @return {*}  {optItemType[]} 标签对象数组
+ */
 const handleOptItem = (
   options: (number | string | optItemType)[]
 ): optItemType[] => {
   return options.map((item) => {
-    if (typeof item === "string" || typeof item === "number") {
+    if (isString(item) || isNumber(item)) {
       return {
         label: item,
         value: item,
@@ -70,21 +79,30 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
     // 处理后的option
     let [option, setOption] = useState<optItemType[]>([]);
 
-    // 处理点击选中事件
-    const handleClick = (index: number) => {
-      setSlideIsMove(true);
-      onChange && onChange(option[index].value);
-      labelsRef.current[currentIndex].classList.remove(
-        "versa-segmented-item-selected"
-      );
-      setCurrIndex(index);
-      const slide = slideRef.current!;
-      slide.style.display = "block";
-      setSlideStyle(slide, labelsRef.current[index]);
-    };
+    /**
+     * 处理点击选中事件
+     * @param {number} index 选中的index
+     * @return {*}
+     */
+    const handleClick = useCallback(
+      (index: number) => {
+        setSlideIsMove(true);
+        onChange && onChange(option[index].value);
+        labelsRef.current[currentIndex].classList.remove(
+          "versa-segmented-item-selected"
+        );
+        setCurrIndex(index);
+        // 显示滑块并进行移动
+        const slide = slideRef.current!;
+        slide.style.display = "block";
+        setSlideStyle(slide, labelsRef.current[index]);
+      },
+      [onChange, labelsRef.current, slideRef.current]
+    );
 
     useEffect(() => {
       timerRef.current && clearTimeout(timerRef.current);
+      // 将滑块隐藏
       timerRef.current = setTimeout(() => {
         setSlideIsMove(false);
         slideRef.current!.style.display = "none";
@@ -94,10 +112,12 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
       };
     }, [currentIndex]);
 
+    // 对原始数据进行处理
     useEffect(() => {
       setOption(handleOptItem(options));
     }, [options]);
 
+    // 受控模式
     useEffect(() => {
       option.some((item, index) => {
         if (item.value == value) {
@@ -107,6 +127,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
       });
     }, [value]);
 
+    // 默认值
     useEffect(() => {
       if (defaultValue) {
         const index = handleOptItem(options).findIndex(

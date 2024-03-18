@@ -35,7 +35,7 @@ const Item = (props: ItemProps) => {
       {Array.isArray(children) ? (
         !compact ? (
           patchChildren.map((item, index) => (
-            <div key={index} className={classNames("varsa-space-item")}>
+            <div key={index} className={classNames("versa-space-item")}>
               {item}
             </div>
           ))
@@ -58,7 +58,7 @@ const Item = (props: ItemProps) => {
           ))
         )
       ) : !compact ? (
-        <div className={classNames("varsa-space-item")}>{children}</div>
+        <div className={classNames("versa-space-item")}>{children}</div>
       ) : (
         children
       )}

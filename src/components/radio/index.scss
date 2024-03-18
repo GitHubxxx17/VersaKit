@@ -1,0 +1,170 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-radio {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: baseline;
+  margin-right: 4px;
+  cursor: pointer;
+  font-size: $versa-font-size;
+
+  &-group {
+    display: flex;
+  }
+
+  &-button {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    cursor: pointer;
+    text-align: center;
+    height: 32px;
+    line-height: 32px;
+    font-size: $versa-font-size;
+    padding: 0 $versa-padding;
+    transition: all 0.2s;
+    border: 1px solid #d9d9d9;
+    &:hover {
+      color: $versa-blue-5;
+    }
+
+    &-start {
+      border-radius: $versa-border-radius 0 0 $versa-border-radius;
+      border-left: 1px solid #d9d9d9;
+    }
+
+    &-end {
+      border-radius: 0 $versa-border-radius $versa-border-radius 0;
+      border-right: 1px solid #d9d9d9;
+    }
+
+    &-checked:not(.versa-radio-button-solid) {
+      z-index: 1;
+      border: 1px solid $versa-blue-5 !important;
+      color: $versa-blue-5;
+    }
+
+    &-checked.versa-radio-button-solid {
+      background-color: $versa-blue-6;
+      color: #fff;
+      border-color: $versa-blue-6;
+    }
+
+    &-large {
+      font-size: $versa-font-size-lg;
+      height: 40px;
+      line-height: 40px;
+    }
+
+    &-small {
+      font-size: $versa-font-size-sm;
+      height: 24px;
+      line-height: 24px;
+      padding: 0 7px;
+    }
+
+    &-input {
+      width: 0;
+      height: 0;
+
+      &-inner {
+        margin: 0;
+        padding: 0;
+        width: 0;
+        height: 0;
+        appearance: none;
+      }
+    }
+  }
+
+  &-input {
+    width: $versa-height-xs;
+    height: $versa-height-xs;
+    align-self: center;
+
+    &-inner {
+      position: relative;
+      width: $versa-height-xs;
+      height: $versa-height-xs;
+      margin: 0;
+      appearance: none;
+      border: 1px solid rgba(0, 0, 0, 0.45);
+      border-radius: 50%;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: $versa-color-primary-hover;
+      }
+
+      &:checked {
+        background-color: $versa-blue-6;
+        border-color: $versa-blue-6;
+        &::before {
+          transform: translate(-50%, -50%) scale(1);
+        }
+
+        &:active {
+          background-color: $versa-blue-5;
+          border-color: $versa-blue-5;
+        }
+      }
+
+      &:focus-visible {
+        outline: $versa-blue-5 auto 1px;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        transform: translate(-50%, -50%) scale(0);
+        background-color: #fff;
+        border-radius: 50%;
+        transition: all 0.2s;
+      }
+    }
+  }
+
+  &-title {
+    font-size: $versa-font-size;
+    line-height: $versa-line-height;
+    padding: 0 $versa-padding-xs;
+  }
+
+  &-disabled {
+    cursor: not-allowed;
+
+    input:disabled {
+      cursor: not-allowed;
+      background-color: #f5f5f5;
+      border-color: $versa-color-border;
+
+      &::before {
+        width: 8px;
+        height: 8px;
+        background-color: #b7b7b7;
+      }
+    }
+
+    .versa-radio-title,
+    .versa-radio-button-title {
+      color: $versa-color-text-disabled;
+    }
+  }
+
+  &-disabled.versa-radio-button {
+    background-color: $versa-color-bg-container-disabled;
+    border-color: #d9d9d9 !important;
+
+    &-checked {
+      background-color: rgba(0, 0, 0, 0.15);
+      color: $versa-color-text-disabled;
+    }
+  }
+}

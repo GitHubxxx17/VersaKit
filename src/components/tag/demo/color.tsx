@@ -9,7 +9,7 @@ const App: React.FC = () => {
       <div>
         <h3>预设颜色</h3>
         {colors.map((color: string) => (
-          <Tag color={color} key={color} styles={{ margin: "0 6px 6px 0" }}>
+          <Tag color={color} key={color} style={{ margin: "0 6px 6px 0" }}>
             {color}
           </Tag>
         ))}
@@ -17,7 +17,7 @@ const App: React.FC = () => {
       <div>
         <h3>自定义颜色</h3>
         {customColor.map((color: string) => (
-          <Tag color={color} key={color} styles={{ margin: "0 6px 6px 0" }}>
+          <Tag color={color} key={color} style={{ margin: "0 6px 6px 0" }}>
             {color}
           </Tag>
         ))}

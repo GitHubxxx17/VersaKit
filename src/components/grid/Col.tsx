@@ -203,7 +203,7 @@ const Col = React.forwardRef<HTMLDivElement, ColProps>((props, ref) => {
           [`versa-col-${span}`]: span,
           [`versa-col-offset-${offset}`]: offset,
           [`versa-col-push-${push}`]: push,
-          [`versa-col-pull-${pull}`]: push,
+          [`versa-col-pull-${pull}`]: pull,
           [`versa-col-order-${order}`]: order,
         },
         innerclassNames,

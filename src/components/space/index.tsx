@@ -65,9 +65,11 @@ const Space = React.forwardRef<HTMLDivElement, SpaceProps>((props, ref) => {
       className={classNames(
         "versa-space",
         `versa-space-${direction}`,
-        innerSize ? `versa-space-${innerSize}` : "",
+        {
+          [`versa-space-${innerSize}`]: typeof innerSize != "undefined",
+          "versa-space-wrap": wrap,
+        },
         `versa-space-${align}`,
-        wrap ? "versa-space-wrap" : "",
         className
       )}
       ref={ref}
