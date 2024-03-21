@@ -2,8 +2,6 @@
   <h1>Ant Design</h1>
 </div>
 
-<div align="center">
-
 VersaKit 是前端高质量的 React 组件库，帮助开发者快速产出高质量产品原型。
 
 ## 📦 Install
