@@ -20,12 +20,19 @@ group:
 <code src="./demo/base.tsx">基础用法</code>
 位置有 12 个方向。
 <code src="./demo/placement.tsx">位置</code>
+
 我们添加了多种预设色彩的文字提示样式，用作不同场景使用。
 <code src="./demo/color.tsx">多彩文字提示</code>
+
 可以控制箭头是否显示
 <code src="./demo/arrow.tsx">箭头显示</code>
+
+当 Tooltip 贴边时，自动偏移并且调整箭头位置。当超出过多时，则一同滚出屏幕。
+<code src="./demo/shift.tsx" iframe="250">贴边偏移</code>
+
 通过设置 title="" 可以禁用 Tooltip。
 <code src="./demo/disabled.tsx">禁用</code>
+
 通过open可手动控制显示隐藏
 <code src="./demo/handle.tsx">手动控制</code>
 

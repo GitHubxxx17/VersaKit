@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { isFragment, isValidElement } from "../../utils";
 import { colors } from "../tag/list";
@@ -9,6 +9,7 @@ import {
   appearAnimation,
   disappearAnimation,
   getPos,
+  scrollBarWidthOrHeight,
   trigger,
   triggerHandler,
 } from "./TooltipHelper";
@@ -81,29 +82,37 @@ function Tooltip(props: TooltipProps) {
   let enterTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // 移出延迟定时器
   let leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 监听触发器在页面的位置变化
+  let observer = useRef<IntersectionObserver | null>(null);
+  // 内部偏移位置
+  const innerPlacement = useRef(placement);
 
   //清除定时器
-  const clearAllTimer = () => {
+  const clearAllTimer = useCallback(() => {
     enterTimerRef.current && clearTimeout(enterTimerRef.current);
     leaveTimerRef.current && clearTimeout(leaveTimerRef.current);
-  };
+  }, [enterTimerRef.current, leaveTimerRef.current]);
+
+  // 清除监听
+  const cleanRefresh = useCallback(() => {
+    observer.current && observer.current.disconnect();
+  }, [observer.current]);
 
   // 触发显示和隐藏
   useEffect(() => {
     const tooltip = tooltipRef.current as HTMLDivElement;
+    // 首次加载组件
     if (first) return;
     //取消上一次的动画
     if (animate.current) {
       animate.current.cancel();
     }
-    //如果有回调函数
-    onOpenChange && onOpenChange(visible);
+    //如果有回调函数就执行
+    onOpenChange?.(visible);
+
     if (visible) {
       //淡入
       tooltip.style.display = "block";
-      const trigger = triggerRef.current as HTMLDivElement;
-      const arrow = arrowRef.current as HTMLDivElement;
-      getPos(placement, trigger, tooltip, arrow);
       animate.current = tooltip.animate(appearAnimation, animateTime);
     } else {
       //淡出
@@ -170,10 +179,140 @@ function Tooltip(props: TooltipProps) {
       if (defaultOpen) handleVisible();
 
       //销毁定时器
-      () => {
+      return () => {
         clearAllTimer();
       };
     }, []);
+
+    useEffect(() => {
+      // 触发显示时开始监听，否则清除监听
+      if (visible) {
+        innerPlacement.current = placement;
+        refresh();
+      } else {
+        cleanRefresh();
+      }
+
+      return () => {
+        cleanRefresh();
+      };
+    }, [visible]);
+
+    // 更新tooltip位置
+    const refresh = useCallback(() => {
+      // 清理监听
+      cleanRefresh();
+
+      if (!triggerRef.current) return;
+
+      // 获取元素的位置和尺寸信息
+      const { left, top, width, height } =
+        triggerRef.current.getBoundingClientRect();
+
+      // 这里更新弹窗的位置
+      if (tooltipRef.current) {
+        const {
+          y: tlTops,
+          x: tlLefts,
+          bottom: tlBottoms,
+          right: tlRights,
+          width: tlWidth,
+          height: tlHeight,
+        } = tooltipRef.current.getBoundingClientRect();
+
+        const { scrollBarWidth, scrollBarHeight } = scrollBarWidthOrHeight();
+
+        // 当前方向空间不足且反方向有足够空间时，将弹窗位置更新为反方向
+        if (
+          tlTops <= 0 &&
+          innerPlacement.current.startsWith("top") &&
+          window.innerHeight > tlHeight * 2 + height + 20
+        ) {
+          innerPlacement.current = innerPlacement.current.replace(
+            "top",
+            "bottom"
+          ) as TooltipPlacement;
+        } else if (
+          tlBottoms >= window.innerHeight - scrollBarHeight &&
+          innerPlacement.current.startsWith("bottom") &&
+          window.innerHeight > tlHeight * 2 + height + 20
+        ) {
+          innerPlacement.current = innerPlacement.current.replace(
+            "bottom",
+            "top"
+          ) as TooltipPlacement;
+        } else if (
+          tlLefts <= 0 &&
+          innerPlacement.current.startsWith("left") &&
+          window.innerWidth > tlWidth * 2 + width + 20
+        ) {
+          innerPlacement.current = innerPlacement.current.replace(
+            "left",
+            "right"
+          ) as TooltipPlacement;
+        } else if (
+          tlRights >= window.innerWidth - scrollBarWidth &&
+          innerPlacement.current.startsWith("right") &&
+          window.innerWidth > tlWidth * 2 + width + 20
+        ) {
+          innerPlacement.current = innerPlacement.current.replace(
+            "right",
+            "left"
+          ) as TooltipPlacement;
+        }
+
+        getPos(
+          innerPlacement.current,
+          triggerRef.current,
+          tooltipRef.current,
+          arrowRef.current
+        );
+      }
+
+      // 如果元素的宽度或高度不存在，则直接返回
+      if (!width || !height) {
+        return;
+      }
+
+      // 计算元素相对于视口四个方向的偏移量
+      const insetTop = Math.floor(top);
+      const insetRight = Math.floor(window.innerWidth - (left + width));
+      const insetBottom = Math.floor(window.innerHeight - (top + height));
+      const insetLeft = Math.floor(left);
+
+      // if (tooltipRef.current)
+      //   console.log(
+      //     `${-insetTop}px ${-insetRight}px ${-insetBottom}px ${-insetLeft}px`,
+      //     tooltipRef.current.getBoundingClientRect()
+      //   );
+
+      // 定义 IntersectionObserver 的选项
+      //window.top == window.self 判断是否在iframe中 false说明页面被嵌套在iframe中
+      const options: IntersectionObserverInit = {
+        root: window.top == window.self ? null : document.body,
+        rootMargin: `${-insetTop}px ${-insetRight}px ${-insetBottom}px ${-insetLeft}px`,
+        threshold: 1,
+      };
+
+      // 处理 IntersectionObserver 的观察结果
+      function handleObserve(entries: IntersectionObserverEntry[]) {
+        // 元素和视口交叉的比例
+        const ratio = entries[0].intersectionRatio;
+        // 当交叉比例为1时，元素在页面上位置没有发生变化
+        if (ratio !== 1) refresh();
+      }
+
+      // 创建 IntersectionObserver 对象并开始观察元素
+      observer.current = new IntersectionObserver(handleObserve, options);
+      // 监听元素
+      observer.current.observe(triggerRef.current);
+    }, [
+      cleanRefresh,
+      innerPlacement.current,
+      triggerRef.current,
+      tooltipRef.current,
+      arrowRef.current,
+    ]);
 
     // 如果title为空则禁用
     if (!title) {
@@ -185,28 +324,30 @@ function Tooltip(props: TooltipProps) {
       <>
         {!first &&
           ReactDOM.createPortal(
-            <div
-              ref={tooltipRef}
-              className={classNames(
-                "versa-tooltip",
-                ...innerClassNames,
-                className
-              )}
-              style={patchStyle}
-              {...rest}
-            >
-              {arrow && (
-                <div
-                  ref={arrowRef}
-                  className="versa-tooltip-arrow"
-                  style={{ backgroundColor: bgColor }}
-                ></div>
-              )}
+            <div>
               <div
-                className="versa-tooltip-content"
-                style={{ backgroundColor: bgColor }}
+                ref={tooltipRef}
+                className={classNames(
+                  "versa-tooltip",
+                  ...innerClassNames,
+                  className
+                )}
+                style={patchStyle}
+                {...rest}
               >
-                {title}
+                {arrow && (
+                  <div
+                    ref={arrowRef}
+                    className="versa-tooltip-arrow"
+                    style={{ backgroundColor: bgColor }}
+                  ></div>
+                )}
+                <div
+                  className="versa-tooltip-content"
+                  style={{ backgroundColor: bgColor }}
+                >
+                  {title}
+                </div>
               </div>
             </div>,
             document.body
