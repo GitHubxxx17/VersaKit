@@ -257,6 +257,52 @@ const getPos = (
   }
 };
 
+export const handlePlacement = (
+  placement: TooltipPlacement,
+  tooltip: HTMLDivElement,
+  { height, width }: { height: number; width: number }
+): TooltipPlacement | null => {
+  const {
+    y: tlTops,
+    x: tlLefts,
+    bottom: tlBottoms,
+    right: tlRights,
+    width: tlWidth,
+    height: tlHeight,
+  } = tooltip.getBoundingClientRect();
+
+  const { scrollBarWidth, scrollBarHeight } = scrollBarWidthOrHeight();
+
+  // 当前方向空间不足且反方向有足够空间时，将弹窗位置更新为反方向
+  if (
+    tlTops <= 0 &&
+    placement.startsWith("top") &&
+    window.innerHeight > tlHeight * 2 + height + 20
+  ) {
+    return placement.replace("top", "bottom") as TooltipPlacement;
+  } else if (
+    tlBottoms >= window.innerHeight - scrollBarHeight &&
+    placement.startsWith("bottom") &&
+    window.innerHeight > tlHeight * 2 + height + 20
+  ) {
+    return placement.replace("bottom", "top") as TooltipPlacement;
+  } else if (
+    tlLefts <= 0 &&
+    placement.startsWith("left") &&
+    window.innerWidth > tlWidth * 2 + width + 20
+  ) {
+    return placement.replace("left", "right") as TooltipPlacement;
+  } else if (
+    tlRights >= window.innerWidth - scrollBarWidth &&
+    placement.startsWith("right") &&
+    window.innerWidth > tlWidth * 2 + width + 20
+  ) {
+    return placement.replace("right", "left") as TooltipPlacement;
+  }
+
+  return null;
+};
+
 // 触发类型
 export type trigger = `hover` | `focus` | `click` | `contextMenu`;
 

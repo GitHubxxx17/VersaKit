@@ -48,12 +48,14 @@ const App: React.FC = () => {
 
   return (
     <Tree
+      draggable
       checkable
+      blockNode
       defaultExpandedKeys={["0-0-0", "0-0-1"]}
       defaultSelectedKey={"0-0-0"}
       defaultCheckedKeys={["0-0-0", "0-0-1"]}
       onSelect={onSelect}
-      onCheck={onCheck}
+      // onCheck={onCheck}
       treeData={treeData}
     />
   );

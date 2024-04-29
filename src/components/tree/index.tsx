@@ -32,6 +32,16 @@ export type FlatTreeDataNode = Partial<Omit<TreeDataNode, "children">> & {
   loading?: boolean;
 };
 
+// 拖拽x轴的数据结构
+export type DragXType = {
+  /* 缩进 */
+  indent: number;
+  /* x轴起点 */
+  start: number;
+  /* 是否是末尾节点 */
+  isLast: boolean;
+};
+
 // 哈希树键类型
 export type mapKeyType = string | symbol;
 
@@ -77,6 +87,7 @@ export interface TreeProps
     children?: TreeDataNode[];
   }) => Promise<void>;
   directory?: boolean;
+  draggable?: boolean;
 }
 // 动画执行时间
 export const animateTime = 300;
@@ -107,6 +118,7 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
     showIcon = false,
     loadData,
     directory = false,
+    draggable = false,
     className,
     ...rest
   } = props;
@@ -129,7 +141,182 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
   const checkedKeySet = useRef<Set<string>>(new Set());
   // 当前展开的key
   const expandKeySet = useRef<Set<string>>(new Set());
+  // 拖拽节点的key
+  const [dragKey, setDragKey] = useState<undefined | mapKeyType>();
+  // 拖拽节点进入的目标的key
+  const [dragTargetKey, setDragTargetKey] = useState<undefined | mapKeyType>();
+  // 拖拽x轴位置
+  const [dragX, setDragX] = useState<DragXType>({
+    start: 0,
+    indent: 0,
+    isLast: false,
+  });
 
+  // 找到前一个节点的key
+  const findPreKey = useCallback(
+    (parentNode: FlatTreeDataNode, index: number) => {
+      let preKey = parentNode?.children.find((_, i) => i == index - 1);
+      let preNode = flatTreeData.get(preKey as mapKeyType);
+      if (preNode?.expand && preNode.children.length) {
+        return findPreKey(preNode, preNode.children.length);
+      } else {
+        return preKey;
+      }
+    },
+    [flatTreeData]
+  );
+
+  // 处理拖拽节点进入的目标的key
+  const handleSetDragTargetKey = useCallback(
+    (isCurrNode: boolean, key: mapKeyType | undefined, parent?: mapKeyType) => {
+      if (isCurrNode) {
+        setDragTargetKey(key);
+      } else {
+        let parentNode = flatTreeData.get(parent!)!;
+        let index = parentNode?.children.indexOf(getString(key));
+
+        if (index < -1) {
+          return console.error("Tree：找不到相关key");
+        }
+        if (index > 0) {
+          setDragTargetKey(findPreKey(parentNode, index));
+        } else {
+          setDragTargetKey(parent);
+        }
+      }
+    },
+    [flatTreeData]
+  );
+
+  // 处理当前拖拽的节点
+  const handleDragInit = useCallback((key: mapKeyType, start: number) => {
+    setDragKey(key);
+    setDragX({ start, indent: 0, isLast: false });
+  }, []);
+
+  // 处理子节点的缩进
+  const handleChildIndent = useCallback(
+    (children: string[], indent: number) => {
+      for (let key of children) {
+        let node = flatTreeData.get(key);
+        node!.indent = indent + 1;
+        if (node?.children.length) {
+          handleChildIndent(node.children, indent + 1);
+        }
+      }
+    },
+    [flatTreeData]
+  );
+
+  // 处理拖拽结束事件
+  const handleDragDrop = useCallback(() => {
+    const dragEl = flatTreeData.get(dragKey!);
+    const dragTargetEl = flatTreeData.get(dragTargetKey!);
+    const dragParentKey = dragEl?.parent;
+    const dragTargetParentKey = dragTargetEl?.parent;
+    const dragParent = flatTreeData.get(dragParentKey!);
+    const dragTargetParent = flatTreeData.get(dragTargetParentKey!);
+    const preIndex = dragParent?.children.findIndex((v) => v == dragKey)!;
+    const targetIndex = dragTargetParent?.children.findIndex(
+      (v) => v == dragTargetKey
+    )!;
+    // 删除当前父节点下的拖拽节点的索引
+    dragParent?.children.splice(preIndex, 1);
+
+    // 如果目标节点有子节点并且展开时
+    if (dragTargetEl?.children.length && dragTargetEl.expand) {
+      dragTargetEl?.children.splice(0, 0, getString(dragKey));
+    } else if (dragX.indent == -1) {
+      // indent等于-1表示要插入到目标节点的内部
+      dragTargetEl?.children.push(getString(dragKey));
+      dragTargetEl!.expand = true;
+      dragTargetEl!.hasChild = true;
+    } else if (dragX.indent == 0) {
+      // 如果在同一父节点内则进行排序
+      if (dragParentKey == dragTargetParentKey) {
+        if (preIndex > targetIndex) {
+          dragTargetParent?.children.splice(
+            targetIndex + 1,
+            0,
+            getString(dragKey)
+          );
+        } else {
+          dragTargetParent?.children.splice(targetIndex, 0, getString(dragKey));
+        }
+      } else {
+        // 如果在不同父节点中进行切换
+        dragTargetParent?.children.splice(
+          targetIndex + 1,
+          0,
+          getString(dragKey)
+        );
+      }
+    } else {
+      let parnet = dragTargetParent;
+      let preParent = dragTargetParent;
+      for (let i = dragX.indent; i > 0; i--) {
+        preParent = parnet;
+        parnet = flatTreeData.get(parnet?.parent!);
+      }
+      let preIndex = parnet?.children.findIndex((v) => v == preParent?.key)!;
+      parnet?.children.splice(preIndex + 1, 0, getString(dragKey));
+      dragEl!.indent = parnet!.indent + 1;
+      dragEl!.parent = parnet?.key;
+    }
+    // 设置拖拽节点之前的父节点是否还有子节点
+    dragParent!.hasChild = dragParent?.children.length != 0;
+
+    // 修改拖拽节点的缩进和父节点指向
+    if (
+      (dragTargetEl?.children.length && dragTargetEl.expand) ||
+      dragX.indent == -1
+    ) {
+      dragEl!.indent = dragTargetEl!.indent + 1;
+      dragEl!.parent = dragTargetKey;
+    } else if (dragX.indent == 0) {
+      dragEl!.indent = dragTargetParent!.indent + 1;
+      dragEl!.parent = dragTargetParentKey;
+    }
+    handleChildIndent(dragEl!.children, dragEl!.indent);
+  }, [flatTreeData, dragKey, dragTargetKey, dragX]);
+
+  // 处理x轴的拖拽数据
+  const handleDragX = useCallback(
+    (end: number, isLast: boolean) => {
+      if (!dragTargetKey) return;
+      const dragTargetEl = flatTreeData.get(dragTargetKey)!;
+      // indent < 0: 成为目标节点的子节点
+      // indent == 0: 插在目标节点的前面
+      // indent > 0: 插在目标节点的第indent个父节点的最底部
+      setDragX((pre) => {
+        // 如果目标节点有子节点并且展开，则只能插到目标节点的内部
+        if (dragTargetEl.expand && dragTargetEl.children.length) {
+          return { ...pre, indent: -1 };
+        }
+        let indent = ((pre.start - end) / 24) | 0;
+        // 如果是末尾的节点则限制缩进不能超过当前父节点的
+        if (isLast) {
+          indent =
+            dragTargetEl.indent - 1 <= indent
+              ? dragTargetEl.indent - 1
+              : indent;
+        } else {
+          // 否则不能缩进超过目标节点的范围
+          indent = indent > 0 ? 0 : indent;
+        }
+
+        // 当缩进小于0时
+        if (indent < 0) {
+          // 如果拖拽节点和目标节点是同一个则拖拽节点不能成为目标节点子节点
+          indent = dragTargetKey == dragKey ? 0 : -1;
+        }
+        return { ...pre, indent };
+      });
+    },
+    [flatTreeData, dragTargetKey]
+  );
+
+  // 控制展开
   const controlExpand = (data: Map<mapKeyType, FlatTreeDataNode>) => {
     if (expandedKeys) expandKeySet.current = new Set(expandedKeys);
     for (let [key, node] of data) {
@@ -495,7 +682,8 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
     (
       key: mapKeyType,
       isLast: boolean,
-      parentIsLast: boolean[]
+      parentIsLast: boolean[],
+      isFirst: boolean = false
     ): React.ReactNode => {
       if (!flatTreeData.has(key)) return;
       const node = flatTreeData.get(key)!;
@@ -519,6 +707,14 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
                 showIcon={showIcon}
                 loadData={loadData}
                 directory={directory}
+                draggable={draggable}
+                dragTargetKey={dragTargetKey}
+                setDragTargetKey={handleSetDragTargetKey}
+                setDragInit={handleDragInit}
+                isFirst={isFirst}
+                handleDragDrop={handleDragDrop}
+                handleDragX={handleDragX}
+                dragX={dragX}
               ></TreeNode>
               {node.children.length !== 0 && (
                 <Transition
@@ -539,12 +735,17 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>((props, ref) => {
 
           {key == mapKeyRef.current &&
             node.children.map((childKey, index) =>
-              getTreeNode(childKey, node.children.length - 1 == index, [])
+              getTreeNode(
+                childKey,
+                node.children.length - 1 == index,
+                [],
+                index == 0
+              )
             )}
         </React.Fragment>
       );
     },
-    [flatTreeData]
+    [flatTreeData, dragTargetKey, dragX, handleDragX]
   );
 
   return (

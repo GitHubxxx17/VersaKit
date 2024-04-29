@@ -6,6 +6,7 @@
     display: flex;
     align-items: center;
     padding-bottom: 4px;
+    position: relative;
 
     &-disabled {
       .versa-tree-title {
@@ -16,6 +17,53 @@
           background-color: initial;
         }
       }
+    }
+  }
+
+  &-draggable {
+    cursor: move;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+    color: #d9d9d9;
+    transition: all 0.3s;
+
+    &-icon {
+      width: 14px;
+      height: 14px;
+      span {
+        font-size: 14px;
+      }
+    }
+
+    &:hover {
+      color: $versa-color-text;
+    }
+  }
+
+  &-dragging {
+    z-index: 1;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 24px;
+      border: 1px solid $versa-color-primary-text;
+      pointer-events: none;
+    }
+  }
+
+  &-dragging,
+  &-dragOver {
+    .versa-tree-draggable,
+    .versa-tree-indent,
+    .versa-tree-switcher,
+    .versa-tree-checkbox,
+    .versa-tree-title,
+    .versa-tree-directory,
+    .versa-tree-icon {
+      pointer-events: none;
     }
   }
 
@@ -158,6 +206,7 @@
   }
 
   &-title {
+    position: relative;
     padding: 0 calc($versa-padding-xs / 2);
     border-radius: $versa-border-radius;
     cursor: pointer;
@@ -175,7 +224,7 @@
     }
 
     &-block {
-      width: 100%;
+      flex: 1;
     }
   }
 
@@ -203,6 +252,32 @@
     .versa-tree-switcher,
     .versa-tree-switcher-inner {
       transition: none;
+    }
+  }
+
+  &-drop-indicator {
+    z-index: 100;
+    position: absolute;
+    left: 4px;
+    bottom: -3px;
+    height: 1.5px;
+    width: calc(100% - 4px);
+    background-color: $versa-blue-6;
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      left: -6px;
+      width: 4px;
+      height: 4px;
+      border: 2px solid $versa-blue-6;
+      border-radius: 50%;
+    }
+
+    &-top {
+      top: -3px;
     }
   }
 

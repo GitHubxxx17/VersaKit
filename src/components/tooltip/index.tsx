@@ -9,7 +9,7 @@ import {
   appearAnimation,
   disappearAnimation,
   getPos,
-  scrollBarWidthOrHeight,
+  handlePlacement,
   trigger,
   triggerHandler,
 } from "./TooltipHelper";
@@ -211,55 +211,12 @@ function Tooltip(props: TooltipProps) {
 
       // 这里更新弹窗的位置
       if (tooltipRef.current) {
-        const {
-          y: tlTops,
-          x: tlLefts,
-          bottom: tlBottoms,
-          right: tlRights,
-          width: tlWidth,
-          height: tlHeight,
-        } = tooltipRef.current.getBoundingClientRect();
-
-        const { scrollBarWidth, scrollBarHeight } = scrollBarWidthOrHeight();
-
-        // 当前方向空间不足且反方向有足够空间时，将弹窗位置更新为反方向
-        if (
-          tlTops <= 0 &&
-          innerPlacement.current.startsWith("top") &&
-          window.innerHeight > tlHeight * 2 + height + 20
-        ) {
-          innerPlacement.current = innerPlacement.current.replace(
-            "top",
-            "bottom"
-          ) as TooltipPlacement;
-        } else if (
-          tlBottoms >= window.innerHeight - scrollBarHeight &&
-          innerPlacement.current.startsWith("bottom") &&
-          window.innerHeight > tlHeight * 2 + height + 20
-        ) {
-          innerPlacement.current = innerPlacement.current.replace(
-            "bottom",
-            "top"
-          ) as TooltipPlacement;
-        } else if (
-          tlLefts <= 0 &&
-          innerPlacement.current.startsWith("left") &&
-          window.innerWidth > tlWidth * 2 + width + 20
-        ) {
-          innerPlacement.current = innerPlacement.current.replace(
-            "left",
-            "right"
-          ) as TooltipPlacement;
-        } else if (
-          tlRights >= window.innerWidth - scrollBarWidth &&
-          innerPlacement.current.startsWith("right") &&
-          window.innerWidth > tlWidth * 2 + width + 20
-        ) {
-          innerPlacement.current = innerPlacement.current.replace(
-            "right",
-            "left"
-          ) as TooltipPlacement;
-        }
+        let place = handlePlacement(
+          innerPlacement.current,
+          tooltipRef.current,
+          { height, width }
+        );
+        if (place) innerPlacement.current = place;
 
         getPos(
           innerPlacement.current,
@@ -279,12 +236,6 @@ function Tooltip(props: TooltipProps) {
       const insetRight = Math.floor(window.innerWidth - (left + width));
       const insetBottom = Math.floor(window.innerHeight - (top + height));
       const insetLeft = Math.floor(left);
-
-      // if (tooltipRef.current)
-      //   console.log(
-      //     `${-insetTop}px ${-insetRight}px ${-insetBottom}px ${-insetLeft}px`,
-      //     tooltipRef.current.getBoundingClientRect()
-      //   );
 
       // 定义 IntersectionObserver 的选项
       //window.top == window.self 判断是否在iframe中 false说明页面被嵌套在iframe中

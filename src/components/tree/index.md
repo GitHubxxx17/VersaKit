@@ -24,6 +24,9 @@ group:
 可搜索的树。
 <code src="./demo/search.tsx">可搜索</code>
 
+将节点拖拽到其他节点内部或前后。
+<code src="./demo/drag.tsx">拖动示例</code>
+
 点击展开节点，动态加载数据。
 <code src="./demo/async.tsx">异步数据加载</code>
 
