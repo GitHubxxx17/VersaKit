@@ -1,0 +1,178 @@
+@import "../__common__/scss/base";
+@import "../__common__/scss/color";
+
+.versa-slider {
+  min-width: 100px;
+  width: 100%;
+  margin: 11px 5px;
+  padding: 4px 0;
+  position: relative;
+  cursor: pointer;
+
+  &-track {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 4px;
+    background-color: $versa-blue-3;
+    border-radius: 2px;
+    transition: background-color 0.2s;
+  }
+
+  &-step {
+    width: 100%;
+    height: 4px;
+    background-color: $versa-color-fill-tertiary;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  &-handle {
+    box-sizing: border-box;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    position: absolute;
+    inset-block-start: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid $versa-blue-3;
+    border-radius: 50%;
+    transition:
+      border,
+      height,
+      width 0 0.2s;
+    z-index: 5;
+
+    &:hover:not(.versa-slider-disabled .versa-slider-handle) {
+      top: -4px;
+      border: 4px solid $versa-blue-6 !important;
+      width: 20px;
+      height: 20px;
+    }
+
+    &-focus {
+      top: -4px;
+      border: 4px solid $versa-blue-6 !important;
+      width: 20px;
+      height: 20px;
+      z-index: 10;
+    }
+  }
+
+  &:hover:not(.versa-slider-disabled) {
+    .versa-slider {
+      &-track {
+        background-color: $versa-blue-4;
+      }
+
+      &-step {
+        background-color: $versa-color-fill-content;
+      }
+
+      &-handle {
+        border-color: $versa-blue-4;
+      }
+    }
+  }
+
+  &-disabled {
+    cursor: not-allowed;
+    .versa-slider-track {
+      background-color: $versa-color-bg-container-disabled;
+    }
+
+    .versa-slider-handle {
+      border-color: $versa-color-border-disabled;
+    }
+  }
+
+  &-with-marks {
+    margin-bottom: 30px;
+  }
+
+  &-mark {
+    position: absolute;
+    top: 16px;
+    width: 100%;
+    display: flex;
+    &-text {
+      position: absolute;
+      font-size: $versa-font-size;
+      color: $versa-color-text-description;
+      text-align: center;
+      word-break: keep-all;
+      cursor: pointer;
+      user-select: none;
+      transform: translateX(-50%);
+    }
+
+    &-active {
+      color: $versa-color-text;
+    }
+  }
+
+  &-dot {
+    transform: translate(-20%, -20%);
+    position: absolute;
+    box-sizing: border-box;
+    width: 8px;
+    height: 8px;
+    border: 2px solid $versa-blue-3;
+    border-radius: 50%;
+    z-index: 2;
+    background-color: #fff;
+
+    &-active {
+      border-color: $versa-blue-4;
+    }
+  }
+
+  &-vertical {
+    width: auto;
+    height: 100%;
+    min-height: 100px;
+    margin: 5px 11px;
+    padding: 0 4px;
+
+    .versa-slider-track {
+      top: 0;
+      left: 4px;
+      width: 4px;
+    }
+
+    .versa-slider-step {
+      width: 4px;
+      height: 100%;
+    }
+
+    .versa-slider-handle {
+      left: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:hover:not(.versa-slider-disabled .versa-slider-handle) {
+        left: -4px;
+        border: 4px solid $versa-blue-6 !important;
+        width: 20px;
+        height: 20px;
+      }
+
+      &-focus {
+        left: -4px;
+      }
+    }
+
+    .versa-slider-with-marks {
+      margin-right: 30px;
+    }
+
+    .versa-slider-mark {
+      left: 16px;
+      height: 100%;
+      &-text {
+        transform: translateY(-50%);
+      }
+    }
+  }
+}

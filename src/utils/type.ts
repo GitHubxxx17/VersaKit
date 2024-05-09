@@ -33,7 +33,7 @@ export const isObject = (obj: any): obj is object => {
  * @return {*}  {boolean}
  */
 export const isNumber = (number: any): number is number => {
-  return number && !Number.isNaN(number) && typeof number === "number";
+  return !Number.isNaN(number) && typeof number === "number";
 };
 
 /**

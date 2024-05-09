@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import { isFragment, isValidElement } from "../../utils";
+import { isExist, isFragment, isValidElement } from "../../utils";
 import { colors } from "../tag/list";
 import {
   TooltipPlacement,
@@ -52,7 +52,7 @@ function Tooltip(props: TooltipProps) {
     arrow = true,
     defaultOpen = false,
     trigger = "hover",
-    open = false,
+    open,
     destroyTooltipOnHide = false,
     zIndex = 100,
     onOpenChange,
@@ -63,7 +63,7 @@ function Tooltip(props: TooltipProps) {
   // 合并样式
   let patchStyle = { ...style, zIndex };
   // 显示隐藏
-  const [visible, setVisible] = useState(open);
+  const [visible, setVisible] = useState(false);
   // 类名数组
   let innerClassNames: string[] = [];
   // 触发组件ref
@@ -98,9 +98,9 @@ function Tooltip(props: TooltipProps) {
     observer.current && observer.current.disconnect();
   }, [observer.current]);
 
-  // 触发显示和隐藏
-  useEffect(() => {
-    const tooltip = tooltipRef.current as HTMLDivElement;
+  const handleTooltipVisible = useCallback(() => {
+    if (!tooltipRef.current) return;
+    const tooltip = tooltipRef.current;
     // 首次加载组件
     if (first) return;
     //取消上一次的动画
@@ -109,7 +109,6 @@ function Tooltip(props: TooltipProps) {
     }
     //如果有回调函数就执行
     onOpenChange?.(visible);
-
     if (visible) {
       //淡入
       tooltip.style.display = "block";
@@ -125,6 +124,11 @@ function Tooltip(props: TooltipProps) {
         }
       };
     }
+  }, [visible, tooltipRef.current, first, destroyTooltipOnHide]);
+
+  // 触发显示和隐藏
+  useEffect(() => {
+    handleTooltipVisible();
   }, [visible]);
 
   //设置颜色
@@ -141,7 +145,8 @@ function Tooltip(props: TooltipProps) {
     const child = handleChild(children);
 
     // 处理显示
-    const handleVisible = () => {
+    const handleVisible = useCallback(() => {
+      if (isExist(open)) return;
       clearAllTimer();
       enterTimerRef.current = setTimeout(() => {
         setVisible(!visible);
@@ -151,16 +156,17 @@ function Tooltip(props: TooltipProps) {
         }
         if (first) setFirst(false);
       }, mouseEnterDelay * 1000);
-    };
+    }, [clearAllTimer, first, mouseEnterDelay, visible, open, trigger]);
 
     // 处理隐藏
-    const handleHidden = () => {
+    const handleHidden = useCallback(() => {
+      if (isExist(open)) return;
       clearAllTimer();
       leaveTimerRef.current = setTimeout(() => {
         triggerRef.current?.classList.remove("versa-tooltip-active");
         setVisible(false);
       }, mouseLeaveDelay * 1000);
-    };
+    }, [clearAllTimer, open, mouseLeaveDelay]);
 
     // 将child改造成触发器
     const Trigger = React.cloneElement(child, {
@@ -170,7 +176,10 @@ function Tooltip(props: TooltipProps) {
 
     // 手动设置显示隐藏
     useEffect(() => {
-      if (open && first) handleVisible();
+      if (open && first) {
+        setFirst(false);
+      }
+      if (!isExist(open)) return;
       setVisible(open);
     }, [open]);
 
@@ -266,7 +275,7 @@ function Tooltip(props: TooltipProps) {
     ]);
 
     // 如果title为空则禁用
-    if (!title) {
+    if (title === "") {
       triggerRef.current = undefined;
       return child;
     }

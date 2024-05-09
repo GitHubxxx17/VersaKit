@@ -13,6 +13,7 @@ export {
   default as Segmented,
   type SegmentedProps,
 } from "./components/segmented";
+export { default as Slider, type SliderProps } from "./components/slider";
 export { default as Space, type SpaceProps } from "./components/space";
 export { default as Tabs, type TabsProps } from "./components/tabs";
 export { default as Tag, type TagProps } from "./components/tag";
