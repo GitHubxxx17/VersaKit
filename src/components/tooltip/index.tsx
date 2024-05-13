@@ -72,6 +72,8 @@ function Tooltip(props: TooltipProps) {
   const tooltipRef = useRef<HTMLDivElement>(null);
   // 文字提示箭头ref
   const arrowRef = useRef<HTMLDivElement>(null);
+  // 触发器
+  const Trigger = useRef<React.FunctionComponentElement<any>>();
   // 文字提示动画实例
   const animate = useRef<Animation>();
   // 首次鼠标移入
@@ -132,13 +134,15 @@ function Tooltip(props: TooltipProps) {
   }, [visible]);
 
   //设置颜色
-  if (color) {
-    if (colors.includes(color)) {
-      innerClassNames.push(`versa-tooltip-${color}`);
-    } else {
-      bgColor = color;
+  useEffect(() => {
+    if (color) {
+      if (colors.includes(color)) {
+        innerClassNames.push(`versa-tooltip-${color}`);
+      } else {
+        bgColor = color;
+      }
     }
-  }
+  }, [color]);
 
   if (children) {
     // 如果传入的children是纯文本将其放入span中
@@ -169,10 +173,21 @@ function Tooltip(props: TooltipProps) {
     }, [clearAllTimer, open, mouseLeaveDelay]);
 
     // 将child改造成触发器
-    const Trigger = React.cloneElement(child, {
-      ...triggerHandler(trigger, handleVisible, handleHidden),
-      ref: triggerRef,
-    });
+    const createTrigger = useCallback(() => {
+      if ((child as any).ref) {
+        Trigger.current = React.cloneElement(child, {
+          ...triggerHandler(trigger, handleVisible, handleHidden),
+        });
+        triggerRef.current = (child as any).ref.current;
+      } else {
+        Trigger.current = React.cloneElement(child, {
+          ...triggerHandler(trigger, handleVisible, handleHidden),
+          ref: triggerRef,
+        });
+      }
+    }, [child, handleVisible, handleHidden]);
+
+    createTrigger();
 
     // 手动设置显示隐藏
     useEffect(() => {
@@ -312,7 +327,7 @@ function Tooltip(props: TooltipProps) {
             </div>,
             document.body
           )}
-        {Trigger}
+        {Trigger.current}
       </>
     );
   }
